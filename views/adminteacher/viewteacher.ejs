@@ -1,0 +1,161 @@
+
+<!doctype html>
+<html lang="en">
+ <%- include('../partials/header'); -%>
+
+  <body>
+<div class="wrapper">
+
+	<div class="body-overlay"></div>
+
+	 <!-------sidebar--design------------>
+     <%- include('../partials/sidebar'); -%>
+	 
+   <!-------sidebar--design- close-----------
+   
+   
+      <!-------page-content start----------->
+   
+      <div id="content">
+		  <!------top-navbar-start-----------> 
+			<%- include('../partials/topnav'); -%>
+		  <!------top-navbar-end-----------> 
+		  
+<section class="content-header">
+ 
+  
+    <ol class="breadcrumb">
+        <i class="fa fa-dashboard"></i>Teacher Information</li>
+
+    </ol>
+</section>
+<!-- Visit "codeastro.com" for more projects! -->
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+               <div class="info-box">
+                <span class="info-box-icon bg-purple"><i class="fa fa-play"></i></span>
+                <!-- /.info-box-content -->
+            </div>
+       <!-- Visit "codeastro.com" for more projects! -->
+            <!-- /.info-box -->
+        </div>
+    
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+                <span class="info-box-icon bg-olive"><i class="fa fa-users"></i></span>
+
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+    <div class="box ">
+        <div class="box-header">
+            <h3 class="box-title">List of Teachers</h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" id="students">
+          <table id="stud_info_table" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                  <th>#</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Level</th>
+                    <th>Study</th>
+                  
+                    <th>Acction</th>
+                </tr>
+            </thead>
+            <tbody>
+              <% for (var i = 0; i < data.length; i++) { %>
+                <tr>
+                  <td><%= data[i].id %></td>
+                  <td><%= data[i].firstname %></td>
+                  <td><%= data[i].middlename %></td>
+                  <td><%= data[i].lastname %></td>
+                  <td><%= data[i].gender %></td>
+                  <td><%= data[i].phone %></td>
+                  <td><%= data[i].email %></td>
+                  <td><%= data[i].level %></td>
+                  <td><%= data[i].study %></td>
+                  <td>
+                    
+                    <a href="#">
+                        <i class="material-icons">info</i>
+                      </a>
+                    <a href="#">
+                      <i class="material-icons"> edit</i>
+                    </a>
+                    <a href="#">
+                      <i class="material-icons">delete</i>
+                    </a>
+                 
+                  </td>
+
+                </tr>
+              <% } %>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                  <th>#</th>
+                  <th>First Name</th>
+                  <th>Middle Name</th>
+                  <th>Last Name</th>
+                  <th>Gender</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Level</th>
+                  <th>Study</th>
+                  
+                  <th>Acction</th>
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</section>
+
+
+
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/jquery-3.3.1.min.js"></script>
+  
+  
+  <script type="text/javascript">
+       $(document).ready(function(){
+        $('#stud_info_table').DataTable();
+	      $(".xp-menubar").on('click',function(){
+		    $("#sidebar").toggleClass('active');
+			$("#content").toggleClass('active');
+		  });
+		  
+		  $('.xp-menubar,.body-overlay').on('click',function(){
+		     $("#sidebar,.body-overlay").toggleClass('show-nav');
+		  });
+		  
+	   });
+  </script>
+
+
+  </body>
+  </html>
+
+
+
+
+
+
+

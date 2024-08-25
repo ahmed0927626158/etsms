@@ -1,0 +1,202 @@
+
+<!doctype html>
+<html lang="en">
+ <%- include('../partials/header'); -%>
+
+  <body>
+<div class="wrapper">
+
+	<div class="body-overlay"></div>
+
+	 <!-------sidebar--design------------>
+     <%- include('../partials/sidebar'); -%>
+	 
+   <!-------sidebar--design- close-----------
+   
+   
+      <!-------page-content start----------->
+   
+      <div id="content">
+		  <!------top-navbar-start-----------> 
+			<%- include('../partials/topnav'); -%>
+		  <!------top-navbar-end-----------> 
+		  
+<section class="content-header">
+ 
+  
+    <ol class="breadcrumb">
+        <i class="fa fa-dashboard"></i>Student Information</li>
+
+    </ol>
+</section>
+<!-- Visit "codeastro.com" for more projects! -->
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+               <div class="info-box">
+                <span class="info-box-icon bg-purple"><i class="fa fa-play"></i></span>
+                <!-- /.info-box-content -->
+            </div>
+       <!-- Visit "codeastro.com" for more projects! -->
+            <!-- /.info-box -->
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+                 <div class="info-box">
+                <span class="info-box-icon bg-purple"><i class="fa fa-th"></i></span>
+
+                <div class="info-box-content">
+                    <div class="form-group">
+                        <label>Select Class</label>
+                        <select id="select2" class="form-control select2 select2-hidden-accessible class_list" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                            <option selected value="0">Select Class</option>
+                            <?php foreach ($list_class as $l_class): ?>
+                                <option value="<?php echo $l_class->id; ?>"><?php echo $l_class->name; ?></option>
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+      
+            <!-- /.info-box -->
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="info-box">
+                <span class="info-box-icon bg-purple"><i class="fa fa-th"></i></span>
+
+                <div class="info-box-content">
+                    <div class="form-group">
+                        <label>Select Section</label>
+                        <select id="select2" class="form-control  section_list" style="width: 100%;" tabindex="-1" aria-hidden="true">
+
+                        </select>
+                    </div>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+           
+            <!-- /.info-box -->
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+                <span class="info-box-icon bg-olive"><i class="fa fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Total Student Student Family link</span>
+                    <span class="info-box-number count_student"></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+    <div class="box ">
+        <div class="box-header">
+            <h3 class="box-title">List of Student With Family</h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" id="students">
+          <table id="stud_info_table" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                  <th>#</th>
+                    <th>student firstname</th>
+                    <th>student middlename</th>
+                    <th>student lastname</th>
+                    <th>Student Grade</th>
+                    <th>Student Section</th>
+                    <th>father firstname</th>
+                    <th>father middlename</th>
+                    <th>father lastname</th>
+                    <th>father phone</th>
+                    <th>father email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+              <% for (var i = 0; i < data.length; i++) { %>
+                <tr>
+                  <td><%= data[i].id %></td>
+                  <td><%= data[i].student_firstname %></td>
+                  <td><%= data[i].student_middlename %></td>
+                  <td><%= data[i].student_lastname %></td>
+                  <td><%= data[i].grade %></td>
+                  <td><%= data[i].letter %></td>
+                  <td><%= data[i].father_firstname %></td>
+                  <td><%= data[i].father_middlename %></td>
+                  <td><%= data[i].father_lastname %></td>
+                  <td><%= data[i].father_phone %></td>
+                  <td><%= data[i].father_email %></td>
+                  
+                  <td>
+                    <a href="#">
+                      <i class="material-icons"> edit</i>
+                    </a>
+                    <a href="#">
+                      <i class="material-icons">delete</i>
+                    </a>
+                 
+                  </td>
+
+                </tr>
+              <% } %>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                  <th>#</th>
+                  <th>student firstname</th>
+                    <th>student middlename</th>
+                    <th>student lastname</th>
+                    <th>Student Grade</th>
+                    <th>Student Section</th>
+                    <th>father firstname</th>
+                    <th>father middlename</th>
+                    <th>father lastname</th>
+                    <th>father phone</th>
+                    <th>father email</th>
+                 
+                </tr>
+            </tfoot>
+        </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</section>
+
+
+
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/jquery-3.3.1.min.js"></script>
+  
+  
+  <script type="text/javascript">
+       $(document).ready(function(){
+        $('#stud_info_table').DataTable();
+	      $(".xp-menubar").on('click',function(){
+		    $("#sidebar").toggleClass('active');
+			$("#content").toggleClass('active');
+		  });
+		  
+		  $('.xp-menubar,.body-overlay').on('click',function(){
+		     $("#sidebar,.body-overlay").toggleClass('show-nav');
+		  });
+		  
+	   });
+  </script>
+
+
+  </body>
+  </html>
+
+
+
+
+
+
+

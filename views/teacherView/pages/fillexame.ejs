@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ETSMS</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.bootstrap5.csss">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+  
+
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/css/teacher.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/logo.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="row p-0 m-0 proBanner" id="proBanner">
+        <div class="col-md-12 p-0 m-0">
+          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
+            <div class="ps-lg-3">
+              
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+          <img src="/images/logo.svg"  class="img-fluid"/></h3>
+
+         
+        </div>
+        <%- include('../partials/topnav') -%>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+      <%- include('../partials/sidebar') -%>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+          
+
+
+
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- /.box-header -->
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="subject_home">
+                        <!-- Post -->
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div id="add_subject_box">
+                                  
+            
+                                    <form  id="mark_form">
+                                    
+                                      <div id="assign_class_teacher_box">
+                                        <div class="box ">
+                                            <div class="box-header text-success ">
+                                                <h4>Select Grade</h4>
+                                            </div>
+                                      <div class="box-body">
+                                        <div class="form-group input-control">
+                                            <select  id="select_grade"   name="select_grade" class="form-select" style="width: 100%;">
+                                                <option value="select" >Select Class</option>
+                                                <% for (var i = 0; i < grade.length; i++) { %>
+                                                <option value="<%= grade[i].id %>" ><%=grade[i].grade  %></option>
+                                                <% }%>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                      <!-- Section -->
+
+                                    <div id="assign_class_teacher_box">
+                                      <div class="box ">
+                                          <div class="box-header text-success ">
+                                              <h4>Select Section</h4>
+                                          </div>
+                                          <div class="box-body">
+                  
+                                  <div class="form-group input-control">
+                                      
+                                      <select id="letter_grade_id" name ="letter_grade_id" class="form-select " style="width: 100%;" >
+                                        <option value="select" >Select Section</option>
+                                      </select>
+                                      <div class="error"></div>
+                                  </div>
+                                    </div>
+                                </div>
+                                </div>
+                                     
+                                     <div id="assign_class_teacher_box">
+                                        <div class="box ">
+                                            <div class="box-header text-success">
+                                                <h4>Select Subject</h4>
+                                            </div>
+                                      <div class="box-body">
+                                        <div class="form-group input-control">
+                                            
+                                            <select  id="subject_id"   name="subject_id" class="form-select" style="width: 100%;" >
+                                                <option value="select" >Select Subject</option>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                        
+                                        <!--Section-->
+                                        <div id="assign_class_teacher_box">
+                                            <div class="box ">
+                                                <div class="box-header text-success m2-2">
+                                                    <h4>Select Exam</h4>
+                                                </div>
+                                               <div class="box-body">
+                        
+                                        <div class="form-group input-control">
+                                            
+                                            <select id="exam_id" name ="exam_id" class="form-select " style="width: 100%;">
+                                              <option value="select" >Select Exam</option>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                         </div>
+                                      </div>
+                                      </div>
+                                         
+                                    <br>
+                                    <div class="form-group has-feedback mt-6">
+                                        <button class="btn btn-success" id="register" >Fetch Students</button>
+                                    </div> 
+                                </form>
+                            
+                                </div>
+                            </div>
+
+                            <script>
+              $( document ).ready(async function() {
+                
+                    // get mark distribution
+                    const exame_distibution=document.getElementById("exam_id")
+                    const exames= await fetch("/api/teacher-mark/all",{
+                                    method:"GET"
+                                })
+                        const data=await exames.json()
+                        exame_distibution.innerHTML=''
+                        const optionElement = document.createElement('option');
+                        optionElement.text = 'Select Section';
+                        optionElement.value = 'select';
+                        exame_distibution.appendChild(optionElement)
+                        data.data.forEach(exame => {
+                            const option=document.createElement('option')
+                            option.value=exame.id
+                            option.text=exame.name+" "+exame.percent
+                            exame_distibution.appendChild(option)
+                        });
+
+
+            // fetch all section when the grade class is changed
+            const section_grade=document.getElementById("letter_grade_id")
+            const section_subject=document.getElementById("subject_id")
+
+            $("#select_grade").on("change",async function(){
+                var selectedGrade=$(this).val().trim();
+                
+                if(selectedGrade!='select'){
+                   const sections= await fetch("/api/teacher/grade-section/"+selectedGrade,{
+                                    method:"GET"
+                                })
+                        const data=await sections.json()
+                        section_grade.innerHTML=''
+                        const optionElement = document.createElement('option');
+                        optionElement.text = 'Select Section';
+                        optionElement.value = 'select';
+                        section_grade.appendChild(optionElement)
+                        data.data.forEach(section => {
+                            const option=document.createElement('option')
+                            option.value=section.id
+                            option.text=section.letter
+                            section_grade.appendChild(option)
+                        });
+                       }
+                       else{
+                        section_grade.innerHTML=''
+                        const optionElement = document.createElement('option');
+                        optionElement.text = 'Select Section';
+                        optionElement.value = 'select';
+                        section_grade.appendChild(optionElement)
+                       }
+                     })
+// when section change  /
+        $("#letter_grade_id").on("change",async function(){
+                var section_id=$(this).val().trim();
+                
+                if(section_id!='select'){
+                const sections= await fetch("/api/teacher-section/subject/"+section_id,{
+                                    method:"GET"
+                                })
+                        const data=await sections.json()
+                        section_subject.innerHTML=''
+                        const optionElement = document.createElement('option');
+                        optionElement.text = 'Select Section';
+                        optionElement.value = 'select';
+                        section_subject.appendChild(optionElement)
+                        data.data.forEach(section => {
+                            const option=document.createElement('option')
+                            option.value=section.id
+                            option.text=section.title
+                            section_subject.appendChild(option)
+                        });
+                       }
+                       else{
+                        section_subject.innerHTML=''
+                        const optionElement = document.createElement('option');
+                        optionElement.text = 'Select Section';
+                        optionElement.value = 'select';
+                        section_subject.appendChild(optionElement)
+                       }
+                     })
+
+                    })
+        // handle form data
+        const mark_form=document.getElementById("mark_form")
+        mark_form.addEventListener("submit",async(e)=>{
+                e.preventDefault()
+                // error.innerText=''
+                // success.innerText=''
+                var data = new FormData(mark_form);
+                const section_id=mark_form.letter_grade_id.value;
+                
+              
+                if(section_id==''||section_id=='select'){
+                    // error.innerText="All fields are required"
+                }
+                else{
+                 var formDataObj = {};
+                for (var [key, value] of data) {
+                    formDataObj[key] = value;
+                       }
+                      
+                       
+                const response=await fetch("/api/teacher-section/student/"+section_id,{
+                        method:"GET",
+                    })
+                    const response_data=await response.json();
+                    if(response_data.error){
+                      console.log(response_data.error)
+                      // response_container.innerHTML=''
+                      // const errorSpan=document.createElement("span")
+                      // errorSpan.className='error'
+                      // errorSpan.innerText=response_data.error
+                      // response_container.appendChild(errorSpan)
+                      //   $('#register').prop('disabled', false);
+                    }
+                    else{
+                  const tableBody=document.querySelector("tbody")
+                  console.log(response_data.data)
+                  tableBody.innerHTML = ''; // Clear the table body
+                  response_data.data.forEach(res => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                       
+                        <td>
+                            ${res.id}
+                        </td>
+
+                         <td>
+                            ${res.firstname}
+                            ${res.middlename}
+                            ${res.lastname}
+                        </td>
+
+                         <td>
+                            <input type="number" name=${res.id}>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                      })
+                      // update_attendance.reset()
+                      // response_container.innerHTML=''
+                      // const successSpan=document.createElement("span")
+                      // successSpan.className='success'
+                      // successSpan.innerText=response_data.message
+                      // response_container.appendChild(successSpan)
+                      //   $('#register').prop('disabled', false);
+                        
+                    }
+                }
+              })        
+                    
+                    </script>
+                          <div class="col-sm-7">
+                                <div class="list_subject">
+                                    <h4>List of students</h4>
+                                    <table id="schedule_info_table" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Full Name</th>
+                                                <th>Mark Entry</th>
+                                                
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                          </tbody>
+                                         
+                                      </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.post -->
+                    </div>
+
+                    
+
+
+                    <div class="tab-pane" id="assign_schedule">
+                        <!-- Post -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div id="add_subject_box">
+                                  Select
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="list_subject">
+                                    <h4>Assigned Schedule  Information</h4>
+                                    <table id="schedule_info_table" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Grade</th>
+                                                <th>Schedule Time</th>
+                                                <th>Subject</th>
+                                                <th>Day</th>
+                                                <th>Teacher</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                          </tbody>
+                                          <tfoot>
+                                              <tr>
+                                                <th>#</th>
+                                                <th>Grade</th>
+                                                <th>Schedule Time</th>
+                                                <th>Subject</th>
+                                                <th>Day</th>
+                                                <th>Teacher</th>
+                                              </tr>
+                                          </tfoot>
+                                      </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.post -->
+                    </div>
+                </div>
+                <!-- /.tab-content -->
+            </div>
+        </div>
+   
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+
+
+  
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+   <script src="js/jquery-3.3.1.slim.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/jquery-3.3.1.min.js"></script>
+  
+  
+ 
+
+            
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+         <%- include('../partials/footer') -%>
+                  
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/chart.umd.js"></script>
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+    <script src="../js/misc.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/todolist.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

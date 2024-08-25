@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ETSMS</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    
+    <link rel="shortcut icon" href="/images/logo.svg" />
+    <link rel="stylesheet" href="/css/teacher.css">
+    <!-- End layout styles -->
+    
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="row p-0 m-0 proBanner" id="proBanner">
+        <div class="col-md-12 p-0 m-0">
+          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
+            <div class="ps-lg-3">
+              
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+          <img src="/images/logo.svg"  class="img-fluid"/></h3>
+
+         
+        </div>
+        <%- include('partials/topnav') -%>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+      <%- include('partials/sidebar') -%>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                  <i class="mdi mdi-home"></i>
+                </span> Dashboard
+              </h3>
+              <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item active" aria-current="page">
+                   
+                  </li>
+                </ul>
+              </nav>
+            </div>
+
+            <%- include('dashboard/cards') -%>
+            
+          
+          <!-- partial:partials/_footer.html -->
+         <%- include('partials/footer') -%>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/chart.umd.js"></script>
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+    <script src="../js/misc.js"></script>
+    <script src="../js/settings.js"></script>
+ 
+    <script src="../js/jquery.cookie.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+
+    <script>
+       document.addEventListener('DOMContentLoaded',  async () =>{
+                        // const select= document.querySelectorAll("select")
+                        // var selectElements = document.querySelectorAll('table select');
+                      const response=await fetch("/api/teacher/home-info",{
+                        method:"GET"
+                      })
+                      const data=await response.json()
+                      console.log(data)
+                      if(data.error){
+                        
+                      }
+                      const totale_student=document.getElementById("totale_student")
+                      const totale_class=document.getElementById("totale_class")
+                      const totale_attendance=document.getElementById("totale_attendance")
+                      totale_student.innerText=data.totaleStudents
+                      totale_class.innerText=data.totaleSection
+                      totale_attendance.innerText=data.totaleattendance
+
+                     
+                    })
+    </script>
+  </body>
+</html>

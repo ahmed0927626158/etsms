@@ -1,0 +1,111 @@
+<div class="box ">
+    <!-- Visit "codeastro.com" for more projects! -->
+    <form name="schedule_time" id="schedule_time" method="post" accept-charset="utf-8">
+             <div class="box-body ">
+                 <div class="box-header add_class_msg text-red"></div>
+
+                    <div class="form-group">
+                        <div class="input-control">
+                         <label>Start Time</label>
+                         <input type="time"  id="start_time" name ="start_time" class="form-control" placeholder="Start time" style="width: 100%;">
+                         <div class="error"></div>
+                        </div>
+                     </div> 
+                     
+                     
+                     <div class="form-group">
+                        <div class="input-control">
+                        <label>End Time</label>
+                        <input type="time" id="end_time" name ="end_time" class="form-control" placeholder="End time" style="width: 100%;">
+                        <div class="error"></div>
+                    </div>
+                    </div>
+                     <div class="form-group has-feedback">
+                         <button class="btn btn-success" >Add Schedule Time</button>
+                     </div>     
+                    </div>
+                </form>
+         </div>
+         <script>
+            const schedule_time_form=document.getElementById("schedule_time")
+            schedule_time_form.addEventListener("submit",async(e)=>
+                {
+                e.preventDefault()
+               const form_data=new FormData(schedule_time_form)
+               let formDataObj={}
+               for (var [key,value] of form_data){
+                formDataObj[key]=value
+               }
+        if(formDataObj['start_time']=='')
+           {
+            Swal.fire({
+                      icon: "error",
+                      title: "Start time is required",
+                      text: '',
+                    });
+                }
+        else if(formDataObj['end_time']=='')
+           {
+            Swal.fire({
+                      icon: "error",
+                      title: "Start time is required",
+                      text: '',
+                    });
+            }
+                // Extract hours and minutes
+                const [start_hours, start_minutes] = formDataObj['start_time'].split(':');
+                const [end_hours, end_minutes] = formDataObj['end_time'].split(':');
+                // Convert hours to a number
+                const starthoursNum = parseInt(start_hours, 10);
+                const endhoursNum=parseInt(end_hours,10)
+                // Check if the hours are greater than 12
+                if (starthoursNum > 12) 
+                 {
+                    Swal.fire({
+                      icon: "error",
+                      title: "Start time is PM ",
+                      text: 'please make it AM',
+                    });
+                   }
+                if (endhoursNum > 12) 
+                  {
+                    Swal.fire({
+                      icon: "error",
+                      title: "End time is PM",
+                      text: 'please make it AM',
+                    });
+                  }
+               
+                    else{
+                        $('#register').prop('disabled', true);
+                    $.ajax({
+                        url: "/api/schedule-time/register",
+                        type: "POST",
+                        data: formDataObj,
+                        datatype: "json",
+                        success: function(resp) 
+                        {
+                        $('#register').prop('disabled', false);
+                        schedule_time_form.reset();
+                        Swal.fire({
+                            title: "Schedule Time!",
+                            text: "Schedule Time added successfuly.",
+                            icon: "success"
+                            });
+                        },
+                        error: function(xhr, status, error){
+                        $('#register').prop('disabled', false);
+                        schedule_time_form.reset();
+                        Swal.fire({
+                                icon: "error",
+                                title: xhr.responseJSON.error,
+                                text: '',
+                                });
+                               }  });
+                                }
+                                
+                            
+                    
+                
+            })
+         </script>

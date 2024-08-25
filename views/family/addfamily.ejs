@@ -1,0 +1,245 @@
+
+<!doctype html>
+<html lang="en">
+ <%- include('../partials/header'); -%>
+
+  <body>
+<div class="wrapper">
+	<div class="body-overlay"></div>
+	 
+	 <!-------sidebar--design------------>
+     <%- include('../partials/sidebar'); -%>
+	 
+   <!-------sidebar--design- close-----------
+   
+   
+      <!-------page-content start----------->
+   
+      <div id="content">
+		  <!------top-navbar-start-----------> 
+			<%- include('../partials/topnav'); -%>
+<section class="content-header">
+  
+    <ol class="breadcrumb">
+        <!-- <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a><i class="fa fa-user"></i>Student</a></li> -->
+        <li><a><i class="fa fa-user-plus active"></i> Add Fmaily</a></li>
+
+    </ol>
+</section>
+
+<section class="content container-fluid">
+    
+   
+    <div class="box">
+        <div class="box-header">
+            <div class="alert bg-success text-white text-center font-weight-bold"> ***All the fields are <b>required</b>***</div>
+        </div>
+       <!-- /.box-header  -->
+   <div class="box-body">
+<form name="add_family" id="add_family">
+ <div class="row">
+   
+      <div class="col-sm-6 col-xs-12">
+           <!--        Full Name-->
+           <div class="input-control"> 
+           <div class="error"></div>
+               </div>
+           <div class="form-group has-feedback">
+             <label>First Name</label>
+             <div class="input-control"> 
+               <input type="text" name="firstname"  id="firstname" class="form-control" placeholder="First Name">
+               <span class="glyphicon glyphicon-user form-control-feedback"></span>
+               <div class="error"></div>
+               </div>
+           </div>
+
+           <!--firtname-->
+          
+           <div class="form-group has-feedback input-control">
+               <div class="input-control">
+                <label>middlename</label>
+               <input   type="text" name="middlename" id="middlename" class="form-control" placeholder="Middle Name">
+               <span class="glyphicon glyphicon-user form-control-feedback"></span>
+               <div class="error"></div>
+            </div>
+           </div>
+           <!-- Lastname -->
+           <div class="form-group has-feedback input-control">
+             <label>Lastname</label>
+            <input   type="text" name="lastname" id="lastname" class="form-control" placeholder="Last Name">
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            <div class="error"></div>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group has-feedback input-control" id="gender">
+         <label>Gender</label><br>
+         <label> Male
+             <input type="radio" name="gender" id="male" value="male" class="icheckbox_flat-aero" required >
+         </label>
+         <label> Female
+             <input type="radio" name="gender" id="female" value="female" class="icheckbox_flat-aero">
+         </label>
+         <div class="error"></div>
+     </div>
+               
+           
+           
+           <!-- Date of Birth     -->              
+           <div class="form-group has-feedback input-control">
+                  <label>Date of Birth</label>
+               <input  id="datepicker" type="date" name="birthdate" class="form-control" placeholder="Date of Birth">
+               <span class="fa fa-calendar form-control-feedback"></span>
+               <div class="error"></div>
+           </div>
+            
+       </div>
+
+       <div class="col-sm-6 col-xs-12">
+         <!-- Address -->
+          
+           <!--Address-->
+           
+           <div class="form-group has-feedback input-control">
+            <label>Phone</label>
+           <input  type="text" name="phone" id="phone" class="form-control" placeholder="Phone"/>
+           <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+           <div class="error"></div>
+       </div>
+       
+       <div class="form-group has-feedback input-control">
+        <label>Email</label>
+       <input  type="text" name="email" id="email" class="form-control" placeholder="Email"/>
+       <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+       <div class="error"></div>
+   </div>
+          
+           <div class="form-group has-feedback input-control">
+             <label>Address</label>
+            <input  type="text" name="address" id="address" class="form-control" placeholder="Address"/>
+            <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+            <div class="error"></div>
+        </div>
+           <!-- Class-->
+
+           <!-- <div class="form-group input-control">
+               <label>Class</label>
+               <select  id="select_grade"  itemid="select_grade" name="select_grade" class="form-control select2 select2-hidden-accessible list_class" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                   <option value="select" selected="selected">Select Class</option>
+               </select>
+               <div class="error"></div>
+           </div> -->
+
+           <!--Section-->
+           <!-- <div class="form-group input-control">
+               <label>Section</label>
+               <select id="letter_grade_id" name ="letter_grade_id" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                 <option value="select" selected="selected">Select Section</option>
+               </select>
+               <div class="error"></div>
+           </div> -->
+
+
+           <div class="form-group right">
+               <button id="register"  class="btn btn-flat btn-success">Add Family</button>
+           </div>
+       
+      
+       </div>
+
+  
+     </div>
+   </form>
+       </div>
+    </div>
+
+      
+</section>
+</div>
+<script type="text/javascript">
+    $( document ).ready(async function() {
+            // const select=document.getElementById("select_grade")
+            // const grades= await fetch("/api/grade/all",{
+            //         method:"GET"
+            // })
+            //     const data=await grades.json()
+            //     data.data.forEach(grade => {
+            //         const option=document.createElement('option')
+            //         option.value=grade.grade
+            //         option.text=grade.grade
+            //         select.appendChild(option)
+            //     });
+    
+    
+            //     // fetch all section when the grade class is changed
+            //     $("#select_grade").on("change",async function(){
+            //         var selectedGrade=$(this).val().trim();
+            //         if(selectedGrade!='select'){
+            //           const section_grade=document.getElementById("letter_grade_id")
+            //            const sections= await fetch("/api/letter-grade/section-of-grade/"+selectedGrade,{
+            //                             method:"GET"
+            //                         })
+            //                 const data=await sections.json()
+            //                 section_grade.innerHTML=''
+            //                 const optionElement = document.createElement('option');
+            //                 optionElement.text = 'Select Section';
+            //                 optionElement.value = 'select';
+            //                 section_grade.appendChild(optionElement)
+            //                 data.data.forEach(section => {
+            //                     const option=document.createElement('option')
+            //                     option.value=section.id
+            //                     option.text=section.letter
+            //                     section_grade.appendChild(option)
+            //                 });
+    
+                        
+            //         }
+            //         })
+                })
+          
+            $( ".list_class" ).change(function() {
+                 var data = $(this).val();
+          
+            })
+            // VirtualSelect.init({ 
+            //     ele: '#multiple_select' 
+            //     });
+           
+       
+        </script>
+
+
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="js/virtual-select.min.js"></script> -->
+    <script src="js/family/addfamily.js"></script>
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+   
+   
+   <script type="text/javascript">
+        $(document).ready(function(){
+           $(".xp-menubar").on('click',function(){
+             $("#sidebar").toggleClass('active');
+             $("#content").toggleClass('active');
+           });
+           
+           $('.xp-menubar,.body-overlay').on('click',function(){
+              $("#sidebar,.body-overlay").toggleClass('show-nav');
+           });
+           
+        });
+   </script>
+   </body>
+   
+   </html>
+ 
+ 
+ 
+ 
+ 
+ 
+ 

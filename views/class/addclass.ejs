@@ -1,0 +1,135 @@
+ <!-- Visit "codeastro.com" for more projects! -->
+ <div class="box ">
+    <div class="box-header bg-success text-white py-1">
+        <h4>Add Class</h4>
+
+    </div>
+    <div class="box-body">
+        <div class="box-header add_class_msg text-red"></div>
+        <form  name="add_class" id="add_class"  accept-charset="utf-8">
+<!-- <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>"> -->
+<div class="form-group has-feedback">
+                <label>Class In Numeric</label>
+                <input   type="text" name="grade" class="form-control" placeholder="Class Numeric">
+                <span class="fa fa-terminal form-control-feedback"></span>
+                <div id="class_number"></div>
+            </div>                        
+            <div class="form-group has-feedback">
+                <label>Total Class Section</label>
+                <input   type="number" name="total_lt_grade" class="form-control" placeholder="total grade section">
+                <span class="fa fa-terminal form-control-feedback"></span>
+                <div id="class_name"></div>
+            </div>
+
+            <div class="row"><div id="error" style="color: red;"></div>   <div id="success" style="border: 1 solid green;"></div></div>          
+       
+            <div class="form-group has-feedback">
+                <button class="btn btn-success" id="register" name="add_class" >Add Class </button>
+            </div>     
+
+
+
+        </form>
+
+        <script>
+            const add_class_form=document.getElementById("add_class")
+            const error=document.getElementById("error")
+            const success=document.getElementById("success")
+            
+            add_class_form.addEventListener("submit",async(e)=>{
+                e.preventDefault()
+                error.innerText=''
+                success.innerText=''
+                var data = new FormData(add_class_form);
+                const grade=add_class_form.grade.value;
+                const total_lt_grade=add_class_form.total_lt_grade.value
+                if(grade==''||total_lt_grade==''){
+                    error.innerText="All fields are required"
+                }
+                else{
+                $('#register').prop('disabled', true);
+                    error.innerText=''
+                    success.innerText=''
+                 var formDataObj = {};
+                for (var [key, value] of data) {
+                    formDataObj[key] = value;
+                       }
+                       console.log(formDataObj)
+                       
+                    const response=await fetch("/api/grade/register",{
+                        method:"POST",
+                        body:JSON.stringify({grade,total_lt_grade}),
+                        headers:{"Content-Type":"application/json"}
+                    })
+                    const response_data=await response.json();
+                    if(response_data.error){
+                        error.innerText=response_data.error
+                        $('#register').prop('disabled', false);
+                    }
+                    else{
+                        add_class_form.reset()
+                        $('#register').prop('disabled', false);
+                        success.innerText="Class addedy"
+                    }
+                }
+       
+
+            })
+        </script>
+    </div>
+</div>
+
+
+
+<!-- Visit "codeastro.com" for more projects! -->
+<!-- <script type="text/javascript">
+$('select').select2();
+$('#add_class').submit(function (e) {
+e.preventDefault();
+var me = $(this);
+
+$.ajax({
+url: me.attr('action'),
+type: 'post',
+data: me.serialize(),
+dataType: 'json',
+success: function (response) {
+    
+    if (response.success == true) {
+        
+        $('.form-group').removeClass('has-error')
+                .removeClass('has-success');
+        $('.text-danger').remove();
+        me[0].reset();
+       
+        $.notify("Validation Success","success");
+        list_class();
+    assign_class_teacher_box();
+        
+
+    } else {
+              if(response.server_msg!=''){
+$('.add_class_msg').empty(); 
+ $('.add_class_msg').append(response.server_msg); 
+}
+        $.each(response.msg, function (key, value) {
+            var element = $('#' + key);
+            element.closest('div.form-group')
+                    .removeClass('has-error')
+                    .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                    .find('.text-danger').remove();
+            element.after(value);
+
+          
+
+        });
+     
+    }
+}
+});
+
+});
+
+
+</script> -->
+<!-- Visit "codeastro.com" for more projects! -->

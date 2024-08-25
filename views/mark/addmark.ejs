@@ -1,0 +1,83 @@
+<div class="box ">
+    <!-- Visit "codeastro.com" for more projects! -->
+      <div class="box-body">
+          <div class="box-header add_class_msg text-red"></div>  
+          <form name="add_mark" id="add_mark">   
+              <div class="form-group has-feedback">
+               
+                  <label>Mark Name</label>
+                  <input   type="text" name="name" id="name" class="form-control" placeholder="Mark Name">
+                  <span class="fa fa-terminal form-control-feedback"></span>
+                 
+                  <label>Out of Percent</label>
+                  <input   type="number" name="percent" id="percent" class="form-control" placeholder="Percent">
+                  <span class="fa fa-terminal form-control-feedback"></span>
+                  <div class="error" id="error"></div> <div id="success"></div>
+
+
+              </div>          
+         
+              <div class="form-group has-feedback">
+                  <button class="btn btn-success" id="register" name="add_mark" >Add Mark </button>
+              </div> 
+          </form>    
+
+      </div>
+
+
+  </div>
+
+<script type="text/javascript">
+const add_mark_form=document.getElementById("add_mark")
+            const error=document.getElementById("error")
+            const success=document.getElementById("success")
+
+            add_mark_form.addEventListener("submit",async(e)=>{
+                e.preventDefault()
+                error.innerText=''
+                success.innerText=''
+                var data = new FormData(add_mark_form);
+                const name=add_mark_form.name.value;
+                const percent=add_mark_form.percent.value;
+               
+                if(name==''){
+                    error.innerText="Mark name is required"
+                    return
+                }
+               else if(percent==''){
+                    error.innerText="Mark perent is required"
+                }
+               else if(percent<0||percent>100){
+                    error.innerText="Please use valid mark"
+                    return
+                }
+                else{
+                $('#register').prop('disabled', true);
+                    error.innerText=''
+                    success.innerText=''
+                 var formDataObj = {};
+                for (var [key, value] of data) {
+                    formDataObj[key] = value;
+                       }
+                     
+                    const response=await fetch("/api/mark/register",{
+                        method:"POST",
+                        body:JSON.stringify({name,percent}),
+                        headers:{"Content-Type":"application/json"}
+                    })
+                    const response_data=await response.json();
+                    if(response_data.error){
+                        error.innerText=response_data.error
+                        $('#register').prop('disabled', false);
+                    }
+                    else{
+                        add_mark_form.reset()
+                        $('#register').prop('disabled', false);
+                        success.innerText=`Mark ${name} out of ${percent} added`
+                    }
+                }
+       
+
+            })
+
+</script>

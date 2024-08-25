@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>EEES</title>
+    <!-- plugins:css -->
+ 
+
+    <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/css/teacher.css">
+    <!-- End layout styles -->
+    
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+          <div class="row flex-grow">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light text-left p-5">
+                <div class="brand-logo">
+                  <img src="/images/logo.svg">
+                </div>
+                <h4>Login </h4>
+               
+                <form name="login_form" id="login_form" class="pt-3 login_form">
+                    <div class="error form-group" id="error" style="color: red;"></div>
+                  <div class="form-group">
+                    <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                  </div>
+                  <div class="mt-3 d-grid gap-2">
+                    <button class=" btn btn-block bg-success auth-form-btn">SIGN IN</button>
+                  </div>
+                  <div class="my-2 d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                      
+                    <a href="#" class="auth-link text-primary">Forgot password?</a>
+                  </div>
+                </form>
+
+
+                <script>
+                    const form=document.getElementById("login_form")
+                    const error=document.getElementById("error")
+                    form.addEventListener("submit",async(e)=>{
+                        e.preventDefault()
+                        error.innerText=''
+                        const email=form.email.value;
+                        const password=form.password.value
+                        try {
+                          if(email==''||password==''){
+                            return  error.innerText='All fields are required'
+                          }
+                            const response= await fetch("/api/teacher/auth/login",{
+                                method:"POST",
+                                body:JSON.stringify({email,password}),
+                                headers:{"Content-Type":"application/json"}
+                            })
+                          
+                            const data=await response.json()
+                            if(data.error){
+                                error.innerText=data.error
+                            }
+                            if(data.location){
+                                location.assign(data.location)
+                            }
+                            
+                            
+                        } catch (error) {
+                            // console.log(error)
+                        }
+                    })
+                  </script>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/chart.umd.js"></script>
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+   
+ 
+ 
+    <script src="../js/jquery.cookie.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../js/dashboard.js"></script>
+  </body>
+</html>

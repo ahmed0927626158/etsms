@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-md-4 stretch-card grid-margin">
+      <div class="card bg-gradient-danger card-img-holder text-white">
+        <div class="card-body">
+          <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+          <h4 class="font-weight-normal mb-3">Total My Sections<i class="mdi mdi-account-group mdi-24px float-end"></i>
+          </h4>
+          <h2 class="mb-5" id="totale_class"></h2>
+          <h6 class="card-text"></h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 stretch-card grid-margin">
+      <div class="card bg-gradient-info card-img-holder text-white">
+        <div class="card-body">
+          <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+          <h4 class="font-weight-normal mb-3">Total Students<i class="mdi mdi-format-list-checks mdi-24px float-end"></i>
+          </h4>
+          <h2 class="mb-5" id="totale_student"></h2>
+          <h6 class="card-text"></h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 stretch-card grid-margin">
+      <div class="card bg-gradient-success card-img-holder text-white">
+        <div class="card-body">
+          <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
+          <h4 class="font-weight-normal mb-3">Total attendance Taken<i class="mdi mdi-google-classroom mdi-24px float-end"></i>
+          </h4>
+          <h2 class="mb-5" id="totale_attendance"></h2>
+          <h6 class="card-text"></h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12 grid-margin">
+
+      <% for (var i = 0; i < mySchedule.length; i++) { %>
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title text-success">My Schedule <%= i+1 %> </h4>
+          <div class="">
+            <div class="row">
+
+              <div class="col">
+                <p class="card-title text-danger">Grade & Section</p>
+                <span class="card-text"><%= mySchedule[i].grade +' ' +mySchedule[i].letter %></span>
+              </div>
+
+              <div class="col">
+                <p class="card-title text-warning">Schedule Time</p>
+                <span class="card-text"><%= mySchedule[i].day_title +'  '+mySchedule[i].start_time +'--'+mySchedule[i].end_time %></span>
+              </div>
+
+              <div class="col">
+                <p class="card-title text-primary">Subject</p>
+                <span class="card-text"><%= mySchedule[i].title %></span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+            <canvas id="mark_distribution"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="clearfix">
+            <h4 class="card-title float-start">Grade Exam result statistic</h4>
+            <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-end"></div>
+          </div>
+          <canvas id="visit-sale-chart" class="mt-4"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+        //  color array
+         let colors='<% for (var i = 0; i < colors.backgroundColor.length; i++) { %>'+'<%= colors.backgroundColor[i]  %>'+"|"+ ' <% } %>'
+        let colorArray= colors.split('|').map(color => color.trim());
+       
+         // label array
+        let labels='<% for (var i = 0; i < markLabel.length; i++) { %>'+'<%= markLabel[i]  %>'+"|"+ ' <% } %>'
+        var labelArray= labels.split('|').map(label => label.trim()).filter(item => item.trim() !== '');
+        
+
+                 // label array
+        let percents='<% for (var i = 0; i < percents.length; i++) { %>'+'<%= percents[i]  %>'+"|"+ ' <% } %>'
+        let markArray= percents.split('|').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+    
+       
+        const ctx = document.getElementById('mark_distribution').getContext('2d');
+            const myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                  labels: labelArray,
+                  datasets: [{
+                      label: 'Marks',
+                      data: markArray, // You can dynamically change these values
+                      backgroundColor:colorArray,
+                      borderWidth: 2
+                  }]
+                  
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                          display: '<%= showMark  %>',
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Marks Distribution'
+                        }
+                    }
+                }
+            });
+  </script>

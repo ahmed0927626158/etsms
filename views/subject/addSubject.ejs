@@ -1,0 +1,71 @@
+<div class="box ">
+    <!-- Visit "codeastro.com" for more projects! -->
+      <div class="box-body">
+          <div class="box-header add_class_msg text-red"></div>  
+          <form name="add_subject" id="add_subject">   
+              <div class="form-group has-feedback">
+               
+                  <label>Subject Name</label>
+                  <input   type="text" name="title" id="title" class="form-control" placeholder="Subject Name">
+                  <span class="fa fa-terminal form-control-feedback"></span>
+                  <div class="error" id="error"></div> <div id="success"></div>
+               
+              </div>          
+         
+              <div class="form-group has-feedback">
+                  <button class="btn btn-success" id="register" name="add_subject" >Add Subject </button>
+              </div> 
+          </form>    
+
+      </div>
+
+
+  </div>
+
+<script type="text/javascript">
+const add_subject_form=document.getElementById("add_subject")
+            const error=document.getElementById("error")
+            const success=document.getElementById("success")
+            
+            add_subject_form.addEventListener("submit",async(e)=>{
+                e.preventDefault()
+                error.innerText=''
+                success.innerText=''
+                var data = new FormData(add_subject_form);
+                const title=add_subject_form.title.value;
+               
+                if(title==''){
+                    error.innerText="Title is required"
+                }
+                else{
+                $('#register').prop('disabled', true);
+                    error.innerText=''
+                    success.innerText=''
+                 var formDataObj = {};
+                for (var [key, value] of data) {
+                    formDataObj[key] = value;
+                       }
+                     
+                       
+                    const response=await fetch("/api/subject/register",{
+                        method:"POST",
+                        body:JSON.stringify({title}),
+                        headers:{"Content-Type":"application/json"}
+                    })
+                    const response_data=await response.json();
+                    if(response_data.error){
+                        add_subject_form.reset()
+                        error.innerText=response_data.error
+                        $('#register').prop('disabled', false);
+                    }
+                    else{
+                        add_subject_form.reset()
+                        $('#register').prop('disabled', false);
+                        success.innerText=`Subject ${title} added`
+                    }
+                }
+       
+
+            })
+
+</script>

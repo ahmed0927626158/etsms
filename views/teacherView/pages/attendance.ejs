@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ETSMS</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg" />
+    <link rel="stylesheet" href="/css/teacher.css">
+    <!-- End layout styles -->
+  
+    <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <style>
+      tr .td{
+        font-size: 9px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="row p-0 m-0 proBanner" id="proBanner">
+        <div class="col-md-12 p-0 m-0">
+          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
+            <div class="ps-lg-3">
+              
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+          <img src="/images/logo.svg"class="img-fluid"/></h3>
+
+         
+        </div>
+        <%- include('../partials/topnav') -%>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+      <%- include('../partials/sidebar') -%>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+                <div class="col-12 grid-margin">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title "> <%=grade %> <%= section %></h4>
+                      <div class="table-responsive">
+                        <form id="attendance_form">
+                        <table class="table" id="attendance_table">
+                          <thead>
+                            <tr>
+                              <th >#</th>
+                              <th>Full Name</th>
+                            
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for (var i = 0; i < student_data.length; i++) { %>
+                              <tr>
+                              
+                                <td class="td"><%= student_data[i].id %></td>
+                                <td class="td"> <%= student_data[i].firstname %> <%= student_data[i].middlename %> <%= student_data[i].lastname %></td>
+                               
+                                <td>
+                                    <select class="status-dropdown form-select" >
+                                      <option value="select" selected>select status</option>
+                                        <option value="present">Present</option>
+                                        <option value="absent">Absent</option>
+                                    </select> 
+                                  </td>
+                              </tr>
+                            <% } %>
+                              
+                          
+                          </tbody>
+                        </table>
+                        <button class="btn btn-block btn btn-block bg-gradient-success text-white auth-form-btn">Save Attendance</button>
+                    </form>
+                    <script>
+                      // for color change of border
+                      document.addEventListener('DOMContentLoaded', function() {
+                        const select= document.querySelectorAll("select")
+                        var selectElements = document.querySelectorAll('table select');
+                      // Add onchange event to each select element
+                      selectElements.forEach(function(selectElement) {
+                        selectElement.addEventListener('change', function(event) {
+                          // Access the selected value
+                          if(event.target.value==='absent'){
+                            selectElement.style.border='2px solid yellow'
+                          }
+                          else if(event.target.value==='present'){
+                            selectElement.style.border='2px solid green'
+                          }
+                        });
+                      });
+                    })
+
+
+                                  function validateTableForm() {
+                                      // Access the table by its ID
+                                      var table = document.getElementById('attendance_table');
+                                      // Access all the <select> elements within the table
+                                      var selectElements = table.getElementsByTagName('select');
+                                      for (var i = 0; i < selectElements.length; i++) {
+                                          if (selectElements[i].value === 'select') {
+                                              // Apply a red solid border to <select> elements with the value "select"
+                                              selectElements[i].style.border = '1px solid red';
+                                          }
+                                         
+                                        }
+
+                                      // Iterate through the <select> elements to perform validation
+                    for (var i = 0; i < selectElements.length; i++) {
+                              if (selectElements[i].value === 'select') {
+                                              // If a <select> element has a value of "select", display an error message
+                                                alert('Please select a valid status for all students.');
+                                              return false; // Prevent the form from being submitted
+                                          }
+                                          
+                                          }
+                                      return true; // Submit the form if all data is valid
+                                  }
+                          const attendance_form=document.getElementById("attendance_form")
+                          attendance_form.addEventListener("submit",async(e)=>{
+                              e.preventDefault()
+                              const validation=validateTableForm()
+                            
+                              if(validation){
+
+                              var tableRows = document.querySelectorAll('table tbody tr');
+                              var table = document.getElementById('attendance_table');
+                              var tdElements = table.getElementsByTagName('td');
+                            var allData = [];
+                            tableRows.forEach((row, index) => {
+                                var id=row.cells[0].innerText
+                                var fname = row.cells[1].innerText;
+                                var status = row.cells[2].querySelector('.status-dropdown').value;
+                                if(status=='select'){
+                                  // console.log(tdElements[index].parentNode)
+                                var parentTR=(tdElements[index].parentNode);
+                                
+                                parentTR.lastElementChild.lastElementChild.style.border = '1px solid red';
+
+                                }
+                                else{
+                                  var parentTR=(tdElements[index].parentNode);
+                               
+                                parentTR.lastElementChild.lastElementChild.style.border = '';
+
+                                }
+                                var rowData = {
+                                id: id,
+                                fname: fname,
+                                status: status
+                                };
+                                allData.push(rowData);
+                               
+                                
+                            });
+
+                          
+                            const response=await fetch("/api/get-student-normal-attendance/mark-attendance",{
+                              method:"POST",
+                              body:JSON.stringify(allData),
+                              headers:{"Content-Type":"application/json"}
+                            })
+                            const data=await response.json()
+                            if(data.error){
+                              alert(data.error)
+                              location.assign("/view-attendance")
+                            }
+
+                            if(data.ok){
+                              location.assign("/view-attendance")
+                            }
+                          }
+                        })
+                      
+
+                    </script>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <%- include('../partials/footer') -%>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/chart.umd.js"></script>
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+    <script src="../js/misc.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/todolist.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

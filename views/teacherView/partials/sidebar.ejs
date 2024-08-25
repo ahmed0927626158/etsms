@@ -1,0 +1,80 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+      <li class="nav-item nav-profile">
+        <a href="#" class="nav-link">
+          <div class="nav-profile-image">
+            
+            <!--change to offline or busy as needed-->
+          </div>
+          <div class="nav-profile-text d-flex flex-column">
+            <span class="font-weight-bold mb-2"><% if (user) { %>
+            <%= user.name %>
+          <% } else { %>
+            <span class="mdi mdi-account"></span>
+          <% } %></span>
+            <span class="text-secondary text-small"><% if (user) { %>
+              <%= user.email %>
+            <% } %></span>
+          </div>
+          <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/teacher-home">
+          <span class="menu-title">Dashboard</span>
+          <i class="mdi mdi-home menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+          <span class="menu-title">Attendance</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-format-list-checks mdi-24px float-end menu-icon"></i>
+        </a>
+        <div class="collapse" id="ui-basic">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/take-attendance">Take Attendance</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/view-attendance">View Attendance</a>
+            </li>
+           
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+          <span class="menu-title">Exam Section</span>
+          <i class="mdi mdi-contacts menu-icon"></i>
+        </a>
+        <div class="collapse" id="icons">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="/fill-exame">Fill Exame</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">View Exame</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#forms" aria-expanded="false" aria-controls="forms">
+          <span class="menu-title">Activity Section</span>
+          <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+        </a>
+        <div class="collapse" id="forms">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="pages/forms/basic_elements.html">Form Elements</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      
+
+
+     
+    </ul>
+  </nav>

@@ -1,0 +1,155 @@
+<div class="box ">
+    <!-- Visit "codeastro.com" for more projects! -->
+      <div class="box-body">
+          <div class="box-header add_class_msg text-red"></div>  
+          <form name="add_schedule_day" id="add_schedule_day">   
+              <div class="form-group has-feedback">
+               <label>Schedule Date</label>
+              </div> 
+              <div class="form-group input-control">
+                <label>Grade and Section </label><br>
+                
+                    <div id="letter_grade_id" name="letter_grade_id" class="letter_grade_id">  
+                    
+                </div>
+                <div class="error"></div>
+            </div>
+              
+              <!-- Day -->
+              <div class="form-group input-control">
+                <label>Day</label><br>
+                    <div id="day_title" name="title" class="day_title">  
+                    </div>
+                
+                <div class="error"></div>
+            </div>
+            <!--Section-->
+              <div class="form-group has-feedback">
+                  <button class="btn btn-success" id="register" name="add_subject" >Add Schedule Date Class </button>
+              </div> 
+          </form>    
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
+<script src="js/virtual-select.min.js"></script>
+  <script>
+    $( document ).ready(async function() {
+        let days=[ 
+                    { label: 'Monday', value: 'monday' },
+                    { label: 'Tuesday', value: 'tuesday' },
+                    { label: 'Wednesday', value: 'wednesday' },
+                    { label: 'Thursday', value: 'thursday' },
+                    { label: 'Friday', value: 'friday' },
+                    { label: 'Saturday', value: 'saturday' }
+                    
+                ]
+                    VirtualSelect.init({
+                       ele: '#day_title',
+                       options:days,
+                       search: true,
+                       multiple: true,
+                       searchGroup: false, // Include group title for searching
+                       searchByStartsWith: false, // Search options by startsWith() method
+                       placeholder:"Select Section",
+                       });  
+            const section_grade=document.getElementById("letter_grade_id")
+                  const sections= await fetch("/api/letter-grade/all/section-grade",{
+                                   method:"GET"
+                               })
+                       const grade_data=await sections.json()
+                    
+                           let sectiontOptions=[]
+                          let sectionJsonObject={}
+                          grade_data.data.forEach((section,index) => {
+                           
+                           sectionJsonObject['label']=section.lable
+                           sectionJsonObject['value']=section.id
+                           sectiontOptions.push(sectionJsonObject)
+                           
+                           sectionJsonObject={}
+                       }); 
+                       VirtualSelect.init({
+                       ele: '#letter_grade_id',
+                       options:sectiontOptions,
+                       search: true,
+                       multiple: true,
+                       searchGroup: false, // Include group title for searching
+                       searchByStartsWith: false, // Search options by startsWith() method
+                       placeholder:"Select Section",
+                       });  
+            })
+const add_schedule_day=document.getElementById("add_schedule_day")
+let count = 0
+add_schedule_day.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent the default form submission
+  var data = new FormData(add_schedule_day);
+        var formDataObj = {};
+        for (var [key, value] of data) {
+            formDataObj[key] = value;
+            }
+        
+        if(formDataObj['letter_grade_id']==''){
+            Swal.fire({
+                      icon: "error",
+                      title: "Please select Grade with Section",
+                      text: '',
+                    });
+        }
+        else if(formDataObj['title']==''){
+            Swal.fire({
+                      icon: "error",
+                      title: "Please Select Day title",
+                      text: '',
+                    });
+        }
+        else{
+         Swal.fire({
+            title: "Are you sure?",
+            text: `You want to  save this schedule date`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, I want to Save!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+        const schedul_grade_data={
+            "letter_grade_id":formDataObj['letter_grade_id'],
+            "title":formDataObj['title']
+        }
+                // send data
+                $('#register').prop('disabled', true);
+                    $.ajax({
+                        url: "/api/schedule/register",
+                        type: "POST",
+                        data: schedul_grade_data,
+                        datatype: "json",
+                        success: function(resp) 
+                        {
+                        $('#register').prop('disabled', false);
+                        add_schedule_day.reset();
+                        Swal.fire({
+                            title: "Schedule Day and Class!",
+                            text: "Schedule day and class added successfuly.",
+                            icon: "success"
+                            });
+                        },
+                        error: function(xhr, status, error){
+                        $('#register').prop('disabled', false);
+                        add_schedule_day.reset();
+                        Swal.fire({
+                                icon: "error",
+                                title: xhr.responseJSON.error,
+                                text: '',
+                                });
+                               }  });
+                                }
+                                });
+                            }
+            
+
+//   validateInputs()
+})
+
+
+  </script>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ETSMS</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- data atable -->
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.bootstrap5.csss">
+    <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script defer src="https://cdn.datatables.net/2.1.3/js/dataTables.bootstrap5.js"></script>
+    <script defer src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="stylesheet" href="/css/teacher.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/logo.svg" />
+
+    <style>
+      
+
+
+table {
+    width: 100%; /* Makes the table take the full width of the container */
+     /* Collapses borders for a cleaner look */
+}
+
+
+
+
+.attendance_container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  
+  border-radius: 5px;
+  margin-bottom: 2px;
+
+}
+.student_info{
+  height: 3rem;
+  display: flex;
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+}
+.date_status{
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.trigger {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.trigger:hover {
+    background-color: #218838;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 8rem;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    tr >td {
+        font-size: 0.1em; /* Reduces font size on smaller screens */
+    }
+    .student_info span{
+      font-size: 13px;
+    }
+
+    .modal {
+      left: 1rem;
+    }
+    .absent_wrrap span{
+      font-size: 10px;
+    }
+    .left-modal h4,.right-modal h4{
+      font-size: 10px;
+    }
+
+    .success ,.error{
+      font-size: 10px;
+    }
+
+}
+
+.modal-container{
+  display:flex;
+  justify-content: space-between;
+  align-items: start;
+}
+.absent_wrrap{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+ 
+  border-radius: 5px;
+  margin-bottom: 8px;
+  padding: 10px;
+  color: white;
+}
+
+.error{
+  color: red;
+  
+}
+.success{
+  color: green;
+ 
+}
+
+
+    </style>
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="row p-0 m-0 proBanner" id="proBanner">
+        <div class="col-md-12 p-0 m-0">
+          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
+            <div class="ps-lg-3">
+              
+            </div>
+           
+          </div>
+        </div>
+      </div>
+      <!-- partial:partials/_navbar.html -->
+      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+          <img src="/images/logo.svg"  class="img-fluid"/></h3>
+
+         
+        </div>
+        <%- include('../partials/topnav') -%>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+      <%- include('../partials/sidebar') -%>
+        <!-- partial -->
+       
+     
+        
+          <div class="content-wrapper">
+            <div class="row">
+                <div class="col-12 grid-margin">
+                   <div class="main-panel">
+                                                        <!-- Modal -->
+                      <div class="modal" id="myModal">
+                        <div class="modal-content">
+                            <span class="close" id="closeModal">&times;</span>
+                            <div class="modal-header" id="modal_header">
+                              <h5 class="modal-title" >Ahmed Yimer Gedif</h5>
+                              
+                            </div>
+                            <div class="modal-body">
+                             <div id="totale_absent"><h5>Totale absent 4</h5></div>
+                                <div class="modal-container"> 
+                                  
+                                  <div class="left_container" id="left_container">
+                                    
+                                  </div>
+
+
+                                    <div class="right-modal">
+                                      <form id="update_attendance">
+                                        <h4>Update today attend</h4>
+                                        <input type="hidden" name="student_id" id="student_id" >
+                                        <select class="form-select" name="attendance" id="attendance">
+                                          <option value="present">Present</option>
+                                          <option value="absent">Asent</option>
+                                        </select>
+                                        <div id="response_container"></div>
+                                        <button class="btn btn-success mt-3" id="register">Update</button>
+
+                                      </form>
+                                      
+                                  </div>
+
+                                </div>
+                              
+                            </div>
+                          
+                        </div>
+                    </div>
+
+                    
+
+                  <div class="btn btn-primary"  >
+                    Attendance
+                  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+                  <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                      <!-- Button trigger modal -->
+                     <!-- <h4 class="card-title ">8 A maths 2:00--2:40</h4> -->
+                       <form>
+                        <div class="row">
+                          <select id="select_month" name="select_month" class="form-select mb-2">
+                            <option value="current_month">current month</option>
+                            <option value="previous_month">previous month</option>
+                      
+                          </select>
+                          <select id="select_weak" name="select_weak" class="form-select mb-2">
+                            <option value="current_weak">current weak</option>
+                            <option value="previous_weak">previous weak</option>
+                          </select>
+
+                          <select id="select_schedule" name="select_schedule " class="form-select mb-2">
+                            <option value="all">All</option>
+                              <% options.forEach(option => { %>
+                                  <option value="<%= option.id %>" >
+                                      <%= option.label %>
+                                  </option>
+                              <% }); %>
+  
+  
+                          </select>
+  
+                        </div>
+                        
+                       </form>
+                      <div class="table-responsive">
+                        <table id="attendance_info_table" class="table table-striped" style="width:100%">
+                          <thead>
+                          </thead>
+                          <tbody id="table_body">
+                           
+                          </tbody>
+                      </table>
+                        
+                                <!-- Modal -->
+
+                
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          </div>
+          
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <%- include('../partials/footer') -%>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+       
+    </div>
+
+
+    <script>
+
+      const update_attendance=document.getElementById('update_attendance')
+      const response_container=document.getElementById("response_container")
+           
+      update_attendance.addEventListener("submit",async(e)=>{
+                e.preventDefault()
+                // error.innerText=''
+                // success.innerText=''
+                var data = new FormData(update_attendance);
+                const student_id=update_attendance.student_id.value;
+                const attendance=update_attendance.attendance.value
+              
+                if(student_id==''||attendance=='select'){
+                    // error.innerText="All fields are required"
+                }
+                else{
+                // $('#register').prop('disabled', true);
+                    // error.innerText=''
+                    
+                 var formDataObj = {};
+                for (var [key, value] of data) {
+                    formDataObj[key] = value;
+                       }
+                      
+                       
+                    const response=await fetch("/api/update-attendance/update-attendance",{
+                        method:"PUT",
+                        body:JSON.stringify({student_id,attendance}),
+                        headers:{"Content-Type":"application/json"}
+                    })
+                    const response_data=await response.json();
+                    if(response_data.error){
+                      response_container.innerHTML=''
+                      const errorSpan=document.createElement("span")
+                      errorSpan.className='error'
+                      errorSpan.innerText=response_data.error
+                      response_container.appendChild(errorSpan)
+                        $('#register').prop('disabled', false);
+                    }
+                    else{
+                      update_attendance.reset()
+                      response_container.innerHTML=''
+                      const successSpan=document.createElement("span")
+                      successSpan.className='success'
+                      successSpan.innerText=response_data.message
+                      response_container.appendChild(successSpan)
+                        $('#register').prop('disabled', false);
+                        
+                    }
+                }
+              })
+  
+    
+        document.addEventListener('DOMContentLoaded',  async () =>{
+        const schedule=document.getElementById("select_schedule")
+        const select_month=document.getElementById("select_month")
+        const select_weak=document.getElementById("select_weak")
+         response_container.innerHTML=''
+        // Initial display of the default value
+       
+        // for page load
+        const url = `/api/teacher/attendance-history/?id=${schedule.value}&weak=${select_weak.value}&month=${select_month.value}`;
+        const response=await fetch(url,{
+                        method:"GET"
+                      })
+                      const data=await response.json()
+                      if(data.error){  
+                      }
+                const tableBody = document.querySelector('tbody');
+                const modal_header=document.getElementById("modal_header")
+                const totale_absent=document.getElementById("totale_absent")
+                modal_header.innerHTML=''
+                totale_absent.innerHTML=''
+                const h4 = document.createElement('h4');
+                const h5=document.createElement('h5')
+                h5.innerText=''
+                h4.className='modal-title'
+                h4.innerText=''
+                modal_header.appendChild(h4)
+                tableBody.innerHTML = ''; // Clear the table body
+                data.data.forEach(res => {
+                    const row = document.createElement('tr');
+                    h4.innerText=`${res.firstname} ${res.middlename} ${res.lastname}`
+                    row.innerHTML = `
+                       
+                        <td class=" ${res.status=='present'?" badge-gradient-success openModal":"badge-gradient-danger openModal"}     attendance_container">
+                           <div class="col student_info">
+                            <input type="hidden"  value=${res.id}>
+                             <span>${res.firstname} ${res.middlename}</span>
+                              <span>Totale absent 3</span>
+                            </div>
+                             <div class="row bg-white date_status text-black">
+                                <span>Date   ${res.date}</span>
+                                <span>Status ${res.status}</span>
+                              </div>
+                                
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+               });
+
+            select_weak.addEventListener("change",async(e)=>{
+             // Construct the URL with query parameters
+            const url = `/api/teacher/attendance-history/?id=${schedule.value}&weak=${select_weak.value}&month=${select_month.value}`;
+              const response=await fetch(url,{
+                        method:"GET"
+                      })
+                      const data=await response.json()
+                      if(data.error){                      
+                      }
+                const tableBody = document.querySelector('tbody');
+                tableBody.innerHTML = ''; // Clear the table body
+                response_container.innerHTML=''
+                data.data.forEach(res => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class=" ${res.status=='present'?" badge-gradient-success openModal":"badge-gradient-danger openModal"}     attendance_container">
+                           <div class="col student_info">
+                            <input type="hidden"  value=${res.id}>
+                             <span>${res.firstname} ${res.middlename}</span>
+                              <span>Totale absent 3</span>
+                            </div>
+                             <div class="row bg-white date_status text-black">
+                                <span>Date   ${res.date}</span>
+                                <span>Status ${res.status}</span>
+                              </div>  
+                        </td>
+                       `;
+                    tableBody.appendChild(row);
+                });
+
+   var modal = document.getElementById("myModal");
+
+  // Get the button that opens the modal 
+    const btn = document.querySelectorAll('.openModal');
+    btn.forEach(div => {
+        div.addEventListener('click', async function() {
+        const attendanceId = $(this).find('input[type="hidden"]').val();
+      const getStudentAttendance= await fetch("api/teacher/single-attendance/"+attendanceId)
+      const data=await getStudentAttendance.json()
+
+      const leftContainer = document.getElementById('left_container');
+      const current_attendance=document.getElementById("current_attendance")
+   
+          // Function to add attendance data to the left_container
+          leftContainer.innerHTML = ``
+          response_container.innerHTML=''
+          h5.innerHTML=`Totale absent ${data.totale_absent}`
+           totale_absent.appendChild(h5)
+      // Function to add attendance data to the left_container
+          data.attendanceData.forEach(res => {
+            h4.innerText=`${res.firstname} ${res.middlename} ${res.lastname}`
+              const absentWrap = document.createElement('div');
+              absentWrap.className = `absent_wrrap ${res.status=="absent"?"bg-gradient-danger":"bg-gradient-success"}`;
+
+              absentWrap.innerHTML = `
+                  <span>${res.day_title} ${res.start_time} ${res.end_time}</span>
+                  <span>${res.date}</span>
+              `;
+              
+              leftContainer.appendChild(absentWrap);
+          });
+      
+      modal.style.display = "block";
+      })
+      })
+  // Get the <span> element that closes the modal
+  var span = document.getElementById("closeModal");
+
+  // // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+      modal.style.display = "none";
+      }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+    }  
+            })
+   
+// when the search select change
+      schedule.addEventListener("change",async(e)=>{
+            // Construct the URL with query parameters
+            const url = `/api/teacher/attendance-history/?id=${schedule.value}&weak=${select_weak.value}&month=${select_month.value}`;
+          const response=await fetch(url,{
+                        method:"GET"
+                      })
+            const data=await response.json()
+            if(data.error){        
+              }
+              const tableBody = document.querySelector('tbody');
+              tableBody.innerHTML = ''; // Clear the table body
+              data.data.forEach(res => {
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class=" ${res.status=='present'?" badge-gradient-success openModal":"badge-gradient-danger openModal"}     attendance_container">
+                           <div class="col student_info">
+                            <input type="hidden"  value=${res.id}>
+                             <span>${res.firstname} ${res.middlename}</span>
+                              <span>Totale absent 3</span>
+                            </div>
+                             <div class="row bg-white date_status text-black">
+                                <span>Date   ${res.date}</span>
+                                <span>Status ${res.status}</span>
+                              </div>  
+                        </td>
+                       `;
+                    tableBody.appendChild(row);
+                });
+
+                var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal 
+  const btn = document.querySelectorAll('.openModal');
+  btn.forEach(div => {
+      div.addEventListener('click', async function() {
+      
+      const attendanceId = $(this).find('input[type="hidden"]').val();
+      const getStudentAttendance= await fetch("api/teacher/single-attendance/"+attendanceId)
+      const data=await getStudentAttendance.json()
+
+      const leftContainer = document.getElementById('left_container');
+      // Function to add attendance data to the left_container
+      console.log(data.totale_absent)
+      leftContainer.innerHTML = ``
+      response_container.innerHTML=''
+      h5.innerHTML=`Totale absent ${data.totale_absent}`
+      totale_absent.appendChild(h5)
+      // Function to add attendance data to the left_container
+      data.attendanceData.forEach(res => {
+        h4.innerText=`${res.firstname} ${res.middlename} ${res.lastname}`
+          const absentWrap = document.createElement('div');
+          absentWrap.className = `absent_wrrap ${res.status=="absent"?"bg-gradient-danger":"bg-gradient-success"}`;
+          absentWrap.innerHTML = `
+              <span>${res.day_title} ${res.start_time} ${res.end_time}</span>
+              <span>${res.date}</span>
+          `;
+        leftContainer.appendChild(absentWrap);
+      });
+      modal.style.display = "block";
+      })
+          })
+      // Get the <span> element that closes the modal
+      var span = document.getElementById("closeModal");
+
+      // // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+          modal.style.display = "none";
+          }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+        }  
+            })
+
+  // Get the modal
+ 
+  var modal = document.getElementById("myModal");
+   response_container.innerHTML=''
+// Get the button that opens the modal 
+  const btn = document.querySelectorAll('.openModal');
+  btn.forEach(div => {
+      div.addEventListener('click',async function() {
+      modal.style.display = "block";
+      const attendanceId = $(this).find('input[type="hidden"]').val();
+      const getStudentAttendance= await fetch("api/teacher/single-attendance/"+attendanceId)
+      const data=await getStudentAttendance.json()
+
+      const leftContainer = document.getElementById('left_container');
+      leftContainer.innerHTML = ``
+      response_container.innerHTML=''
+      // Function to add attendance data to the left_container
+      h5.innerHTML=`Totale absent ${data.totale_absent}`
+      totale_absent.appendChild(h5)
+      console.log( data.attendanceData)
+      data.attendanceData.forEach(res => {
+        document.getElementById('student_id').value = res.id;
+         h4.innerText=`${res.firstname} ${res.middlename} ${res.lastname}`
+          const absentWrap = document.createElement('div');
+          absentWrap.className = `absent_wrrap ${res.status=="absent"?"bg-gradient-danger":"bg-gradient-success"}`;
+          absentWrap.innerHTML = `
+              <span>${res.day_title} ${res.start_time} ${res.end_time}</span>
+              <span>${res.date}</span>
+             `; 
+          leftContainer.appendChild(absentWrap);
+      });
+      modal.style.display = "block";
+          })
+          })
+  // Get the <span> element that closes the modal
+  var span = document.getElementById("closeModal");
+
+  // // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+      modal.style.display = "none";
+      }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+    }
+
+       })
+    </script>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/chart.umd.js"></script>
+    <script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../js/off-canvas.js"></script>
+    <script src="../js/misc.js"></script>
+    <script src="../js/settings.js"></script>
+    <script src="../js/todolist.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="../js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

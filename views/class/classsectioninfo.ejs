@@ -1,0 +1,35 @@
+              <table class="table bg-white">
+                <thead class="thead bg-primary text-white">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Grade</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Max Section</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="gs_table">
+                 
+                  <% for (const key in data) { %>
+                    <% if (data.hasOwnProperty(key)) { %>
+                      <tr>
+                        <td><%= key %></td>
+                        <td><%= data[key].grade %></td>
+                        <td><%= data[key].letters %></td>
+                        <td><%= data[key].total_lt_grade %></td>
+                        <td>
+                          <a href="#">
+                            <i class="material-icons"> edit</i>
+                          </a>
+                          <a href="#">
+                            <i class="material-icons">delete</i>
+                          </a>
+                       
+                        </td>
+                      </tr>
+                    <% } %>
+                  <% } %>
+
+                  
+                </tbody>
+              </table>

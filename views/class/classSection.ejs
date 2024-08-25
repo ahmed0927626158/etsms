@@ -1,0 +1,109 @@
+     <!-- Visit "codeastro.com" for more projects! -->
+     <div class="box box-profile ">
+        <div class="box-header bg-success text-white py-1">
+            <h4>Add Section</h4>
+            <p class="add_section_msg text-red"></p>
+        </div>
+        <div class="box-body">
+
+            <form  name="add_section"  id="add_section" accept-charset="utf-8">
+                <div class="form-group has-feedback">
+                    <label>Select Class</label>
+                    <select  name ="grade" id="select_grade" class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option value="select">Select</option>
+                    </select>
+                </div>
+
+
+                 
+                
+                <div class="form-group has-feedback">
+                    <label>Section Aplhabetical Name</label>
+                    <select  name ="letter" id="grade_section" class="form-control" style="width: 100%;" >
+                        <option value="select">Select</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                    </select>
+                    <span class="fa fa-terminal form-control-feedback"></span>
+                    <div id="section_name"></div>
+                </div>
+
+                <div class="row"><div id="section-error" style="color: red;"></div>   <div id="section-success" style="border: 1 solid green;"></div></div>          
+                <div class="form-group has-feedback">
+                    <button class="btn btn-success" id="register" >Add Section </button>
+                </div>     
+            </form>
+        </div><!-- Visit "codeastro.com" for more projects! -->
+    </div>
+
+    <script>  
+
+    $( document ).ready(async function() {
+        const select=document.getElementById("select_grade")
+        const grades= await fetch("/api/grade/all",{
+                method:"GET"
+        })
+            const data=await grades.json()
+            data.data.forEach(grade => {
+                const option=document.createElement('option')
+                option.value=grade.grade
+                option.text=grade.grade
+                select.appendChild(option)
+            });
+            })
+
+    
+            
+       const add_section_form=document.getElementById("add_section")
+            const section_error=document.getElementById("section-error")
+            const section_success=document.getElementById("section-success")
+            
+            add_section_form.addEventListener("submit",async(e)=>{
+                e.preventDefault()
+                section_error.innerText=''
+                section_success.innerText=''
+                var section_data = new FormData(add_section_form);
+                const section_grade=section_data.get("grade");
+               
+                const letter=section_data.get("letter")
+                if(section_grade==''||letter=='')
+                {
+                    section_error.innerText="All fields are required"
+                    section_success.innerText=""
+                }
+                else if(section_grade=='select'||letter=='select'){
+                    section_error.innerText="Please Select Grade and its section"
+                    section_success.innerText=""
+                }
+                else{
+                $('#register').prop('disabled', true);
+                    section_error.innerText=''
+                    section_success.innerText=''
+                    const response=await fetch("/api/letter-grade/register",{
+                        method:"POST",
+                        body:JSON.stringify({grade:section_grade,letter:letter}),
+                        headers:{"Content-Type":"application/json"}
+                    })
+                    const response_data=await response.json();
+                    if(response_data.error){
+                        section_error.innerText=response_data.error
+                        $('#register').prop('disabled', false);
+                    }
+                    else{
+                        add_class_form.reset()
+                        $('#register').prop('disabled', false);
+                        section_success.innerText="Section added"
+                    }
+                }
+       
+
+            })
+        </script>
+                        
+    
+

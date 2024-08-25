@@ -1,0 +1,266 @@
+
+
+<!doctype html>
+<html lang="en">
+ <%- include('../partials/header'); -%>
+  <body>
+<div class="wrapper">
+	<div class="body-overlay"></div>
+	 <!-------sidebar--design------------>
+     <%- include('../partials/sidebar'); -%>
+   <!-------sidebar--design- close-----------
+   
+   
+      <!-------page-content start----------->
+   
+      <div id="content">
+		  <!------top-navbar-start-----------> 
+			<%- include('../partials/topnav'); -%>
+
+
+<section class="content-header">
+    <h1>
+        <small>
+            </small>
+    </h1>
+    <ol class="breadcrumb">
+        
+        <li><a><i class="fa fa-user-plus active"></i> Manage Schedule Date And Time</a></li>
+
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content container-fluid">
+    <!-- /.box-header -->
+
+    <div class="row">
+
+        <div class="col-sm-12 col-xs-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="active nav-link" href="#subject_home" data-toggle="tab" style="padding-right: 15px;">Add Schedule Date With Class</a></li>
+                     <li class="nav-item"><a class="nav-link" href="#assign_teacher" data-toggle="tab">Add Schedule Time</a></li>
+                     <li class="nav-item"><a class="nav-link" href="#assign_schedule" data-toggle="tab">Assign Schedule</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="subject_home">
+                        <!-- Post -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div id="add_subject_box">
+                                    <%- include('addScheduleDate'); -%>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="list_subject">
+                                    <h4>Schedule Date And Day Information</h4>
+                                    <table id="schedule_info_table" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Grade & Section</th>
+                                                <th>Day</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for (var i = 0; i < scheduleGradeDay.length; i++) { %>
+                                              <tr>
+                                                <td><%= scheduleGradeDay[i].id %></td>
+                                                <td><%= scheduleGradeDay[i].grade_section %></td>
+                                                <td><%= scheduleGradeDay[i].day %></td>
+                                                <td>
+                                                  <a href="#">
+                                                    <i class="material-icons"> edit</i>
+                                                  </a>
+                                                  <a href="#">
+                                                    <i class="material-icons">delete</i>
+                                                  </a>
+                                               
+                                                </td>
+                                                </tr>
+                                            <% } %>
+                                          </tbody>
+                                          <tfoot>
+                                              <tr>
+                                                <th>#</th>
+                                                <th>Grade & Section</th>
+                                                <th>Day</th>
+                                              </tr>
+                                          </tfoot>
+                                      </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.post -->
+                    </div>
+
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="assign_teacher">
+                          <div class="row">
+                            <div class="col-sm-5">
+                                 <div id="assign_subject_teacher_box">
+                                    <%- include('addScheduleTime'); -%>
+                                 </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="list_subject1">
+                                    <h4>Schedule time Information</h4>
+                                    <table id="schedule_info_table" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for (var i = 0; i < scheduleTime.length; i++) { %>
+                                              <tr>
+                                                <td><%= scheduleTime[i].id %></td>
+                                                <td><%= scheduleTime[i].start_time %></td>
+                                                <td><%= scheduleTime[i].end_time %></td>
+                                                <td>
+                                                  <a href="#">
+                                                    <i class="material-icons"> edit</i>
+                                                  </a>
+                                                  <a href="#">
+                                                    <i class="material-icons">delete</i>
+                                                  </a>
+                                               
+                                                </td>
+                                                </tr>
+                                            <% } %>
+                                          </tbody>
+                                          <tfoot>
+                                              <tr>
+                                                <th>#</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                              </tr>
+                                          </tfoot>
+                                      </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane" id="assign_schedule">
+                        <!-- Post -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div id="add_subject_box">
+                                    <%- include('assign_schedule'); -%>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="list_subject">
+                                    <h4>Assigned Schedule  Information</h4>
+                                    <table id="schedule_info_table" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Grade</th>
+                                                <th>Schedule Time</th>
+                                                <th>Subject</th>
+                                                <th>Day</th>
+                                                <th>Teacher</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for (var i = 0; i < assigned_schedule_data.length; i++) { %>
+                                              <tr>
+                                                <td><%= assigned_schedule_data[i].id %></td>
+                                                <td><%= assigned_schedule_data[i].grade %></td>
+                                                <td><%= assigned_schedule_data[i].schedule_time %></td>
+                                                <td><%= assigned_schedule_data[i].subject %></td>
+                                                <td><%= assigned_schedule_data[i].day %></td>
+                                                <td><%= assigned_schedule_data[i].teacher %></td>
+                                                <td>
+                                                  <a href="#">
+                                                    <i class="material-icons"> edit</i>
+                                                  </a>
+                                                  <a href="#">
+                                                    <i class="material-icons">delete</i>
+                                                  </a>
+                                               
+                                                </td>
+                                                </tr>
+                                            <% } %>
+
+                                              
+                                          </tbody>
+                                          <tfoot>
+                                              <tr>
+                                                <th>#</th>
+                                                <th>Grade</th>
+                                                <th>Schedule Time</th>
+                                                <th>Subject</th>
+                                                <th>Day</th>
+                                                <th>Teacher</th>
+                                              </tr>
+                                          </tfoot>
+                                      </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.post -->
+                    </div>
+                </div>
+                <!-- /.tab-content -->
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+    
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+
+
+  
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+   <script src="js/jquery-3.3.1.slim.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/jquery-3.3.1.min.js"></script>
+  
+  
+  <script type="text/javascript">
+       $(document).ready(function(){
+        $('#schedule_info_table').DataTable();
+        // $('#teacher_subject_grade_info_table').DataTable();
+	      $(".xp-menubar").on('click',function(){
+		    $("#sidebar").toggleClass('active');
+			$("#content").toggleClass('active');
+		  });
+		  
+		  $('.xp-menubar,.body-overlay').on('click',function(){
+		     $("#sidebar,.body-overlay").toggleClass('show-nav');
+		  });
+	   });
+  </script>
+  </body>
+  
+  </html>
+
+
+
+
+
+
+
+
+    

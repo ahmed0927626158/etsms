@@ -1,0 +1,250 @@
+<div class="box ">
+    <!-- Visit "codeastro.com" for more projects! -->
+      <div class="box-body">
+          <div class="box-header add_class_msg text-red"></div>  
+          <form name="assign_schedule_form" id="assign_schedule_form">   
+              <div class="form-group has-feedback">
+               <label>Year</label>
+              </div> 
+              <div class="form-group input-control">
+                <label>Grade Schedule Day</label><br>
+                
+                    <div id="schedul_id" name="schedul_id" class="schedul_id">  
+                    
+                </div>
+                <div class="error"></div>
+            </div>
+              
+              <!-- Schedule time -->
+              <div class="form-group input-control">
+                <label>Schedule Time</label><br>
+                    <div id="schedule_time_id" name="schedule_time_id" class="schedule_time_id">  
+                    </div>
+                <div class="error"></div>
+            </div>
+            <!-- Subject -->
+            <div class="form-group input-control">
+                <label>Subject</label><br>
+                    <div id="subject_id" name="subject_id" class="subject_id">  
+                    </div>
+                <div class="error"></div>
+            </div>
+
+            <!-- Teacher -->
+            <div class="form-group input-control">
+                <label>Teacher</label><br>
+                    <div id="techer_id" name="techer_id">  
+                    </div>
+                <div class="error"></div>
+            </div>
+              <div class="form-group has-feedback">
+                  <button class="btn btn-success" id="register" name="add_subject" >Assign Schedule </button>
+              </div> 
+          </form>    
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
+<script src="js/virtual-select.min.js"></script>
+  <script>
+    $( document ).ready(async function() {
+       var scheduleVirtual= VirtualSelect.init({
+                       ele: '#techer_id',
+                       search: true,
+                       multiple: false,
+                       searchGroup: false, // Include group title for searching
+                       searchByStartsWith: false, // Search options by startsWith() method
+                       placeholder:"Select Teacher",
+                       });
+                       
+
+                       
+                    
+            // const schedule_id=document.getElementById("letter_grade_id")
+                  const schedules= await fetch("/api/schedule/assign-schedule",{
+                                   method:"GET"
+                               })
+                       const schedule_data=await schedules.json()
+                           let scheduleOptions=[]
+                          let scheduleJsonObject={}
+                          schedule_data.schedule_data.forEach((schedule,index) => {
+                            scheduleJsonObject['label']=schedule.label
+                            scheduleJsonObject['value']=schedule.id
+                            scheduleOptions.push(scheduleJsonObject)
+                           
+                            scheduleJsonObject={}
+                       }); 
+                       
+                       VirtualSelect.init({
+                       ele: '#schedul_id',
+                       options:scheduleOptions,
+                       search: true,
+                       multiple: false,
+                       searchGroup: false, // Include group title for searching
+                       searchByStartsWith: false, // Search options by startsWith() method
+                       placeholder:"Select Schedule Grade and Day",
+                       });  
+            // Sched time get 
+            const schedule_time_res= await fetch("/api/schedule-time/assign-schedule-time",{
+                                   method:"GET"
+                               })
+                       const schedule_time_data=await schedule_time_res.json()
+                           let scheduleTimeOptions=[]
+                          let scheduleTimeJsonObject={}
+                          schedule_time_data.schedule_time_data.forEach((schedule_time,index) => {
+                            scheduleTimeJsonObject['label']=schedule_time.label
+                            scheduleTimeJsonObject['value']=schedule_time.id
+                            scheduleTimeOptions.push(scheduleTimeJsonObject)
+                            scheduleTimeJsonObject={}
+                       }); 
+                       VirtualSelect.init({
+                       ele: '#schedule_time_id',
+                       options:scheduleTimeOptions,
+                       search: true,
+                       multiple: false,
+                       searchGroup: false, // Include group title for searching
+                       searchByStartsWith: false, // Search options by startsWith() method
+                       placeholder:"Select Schedule time",
+                       }); 
+                // Subject get 
+                
+                const subject_res= await fetch("/api/subject/subject-assign",{
+                                   method:"GET"
+                               })
+                       const subject_data=await subject_res.json()
+                           let subjectOptions=[]
+                          let subjectJsonObject={}
+                          subject_data.subject_data.forEach((subject,index) => {
+                            subjectJsonObject['label']=subject.title
+                            subjectJsonObject['value']=subject.id
+                            subjectOptions.push(subjectJsonObject)
+                            subjectJsonObject={}
+                       }); 
+                       VirtualSelect.init({
+                       ele: '#subject_id',
+                       options:subjectOptions,
+                       search: true,
+                       multiple: false,
+                       searchGroup: false, // Include group title for searching
+                       searchByStartsWith: false, // Search options by startsWith() method
+                       placeholder:"Select Subject",
+                       });
+                    const subject=document.getElementById("subject_id")
+                    console.log(subject.value)
+                    //    Assign schedule
+                    
+            document.querySelector('#schedul_id').addEventListener('change', function() {
+                           var schedule_id=this.value   
+                           document.querySelector('#techer_id').setOptions([]);
+                    document.querySelector('#subject_id').addEventListener('change',async function() {
+                        var subject_id=this.value 
+                        document.querySelector('#techer_id').setOptions([]);  
+                    const teacher_res= await fetch(`/api/techer-grade-subject/link?schedul_id=${schedule_id}&subject_id=${subject_id}`,{
+                                    method:"GET"
+                                })
+                        const teacher_data=await teacher_res.json()
+                            // Clear existing options and add new options
+                           let teacherOptions=[]
+                           let teacherJsonObject={}
+                           teacher_data.teacher_data.forEach(teacher => {
+                            teacherJsonObject['label']=teacher.label
+                            teacherJsonObject['value']=teacher.id
+                            teacherOptions.push(teacherJsonObject)
+                            teacherJsonObject={}
+                        }); 
+                        document.querySelector('#techer_id').setOptions(teacherOptions);
+                    
+                             });
+                           });  
+                       })
+            // Submit the form data
+const assign_schedule_form=document.getElementById("assign_schedule_form")
+assign_schedule_form.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent the default form submission
+  var assign_schedule_data = new FormData(assign_schedule_form);
+        var assingScheduleFormDataObj = {};
+        for (var [key, value] of assign_schedule_data) {
+            assingScheduleFormDataObj[key] = value;
+            }
+            console.log(assingScheduleFormDataObj)
+           
+        
+        if(assingScheduleFormDataObj['schedul_id']==''){
+            Swal.fire({
+                      icon: "error",
+                      title: "Please Select schedule",
+                      text: '',
+                    });
+        }
+        else if(assingScheduleFormDataObj['schedule_time_id']=='')
+            {
+            Swal.fire({
+                      icon: "error",
+                      title: "Please Select Day title",
+                      text: '',
+                    });
+                }
+        else if(assingScheduleFormDataObj['subject_id']==''){
+            Swal.fire({
+                      icon: "error",
+                      title: "Please Select Day title",
+                      text: '',
+                    });
+        }
+        else if(assingScheduleFormDataObj['techer_id']==''){
+            Swal.fire({
+                      icon: "error",
+                      title: "Please Select Teacher",
+                      text: '',
+                    });
+        }
+        
+        else{
+         Swal.fire({
+            title: "Are you sure?",
+            text: `You want to  save this schedule date`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, I want to Save!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+        const scheduleData={
+            "schedule_time_id":assingScheduleFormDataObj['schedule_time_id'],
+            "schedul_id":assingScheduleFormDataObj['schedul_id'],
+            "subject_id":assingScheduleFormDataObj['subject_id'],
+            "teacher_id":assingScheduleFormDataObj['techer_id']
+        }
+                // send data
+                $('#register').prop('disabled', true);
+                    $.ajax({
+                        url: "/api/schedule-part/register",
+                        type: "POST",
+                        data: scheduleData,
+                        datatype: "json",
+                        success: function(resp) 
+                        {
+                        $('#register').prop('disabled', false);
+                        assign_schedule_form.reset();
+                        Swal.fire({
+                            title: "Schedule Assign!",
+                            text: "Schedule Assign successfuly.",
+                            icon: "success"
+                            });
+                        },
+                        error: function(xhr, status, error){
+                        $('#register').prop('disabled', false);
+                        // assign_schedule_form.reset();
+                        Swal.fire({
+                                icon: "error",
+                                title: xhr.responseJSON.error,
+                                text: '',
+                                });
+                               }  });
+                                }
+                                });
+                            }
+})
+
+
+  </script>

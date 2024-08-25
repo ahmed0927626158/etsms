@@ -1,0 +1,169 @@
+
+     <!doctype html>
+<html lang="en">
+ <%- include('../partials/header'); -%>
+
+  <body>
+<div class="wrapper">
+	<div class="body-overlay"></div>
+	 
+	 <!-------sidebar--design------------>
+     <%- include('../partials/sidebar'); -%>
+	 
+   <!-------sidebar--design- close-----------
+   
+   
+      <!-------page-content start----------->
+   
+      <div id="content">
+		  <!------top-navbar-start-----------> 
+			<%- include('../partials/topnav'); -%>
+		  <!------top-navbar-end-----------> 
+		  
+		  
+		   <!------main-content-start----------->
+         
+            
+           <div class="container teacher-container">
+           
+            <div class="card">
+                <div class="card-header bg-success text-center text-white">
+                  Add Teacher
+                </div>
+                <dive class="card-body">
+                    <form id="teacher-form" name="teacher-form" >
+                      <div class="row">
+                        
+                        <div class="col form-group input-control">
+                          <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name">
+                          <div class="error"></div>
+                        </div>
+
+                       
+
+                        <div class="col input-control">
+                          <input type="text" class="form-control" id="middlename" name="middlename" placeholder="Middle name">
+                          <div class="error"></div>
+                        </div>
+                        <div class="col input-control">
+                          <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last name">
+                          <div class="error"></div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col form-group input-control">
+                          <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone">
+                          <div class="error"></div>  
+                        </div>
+                        <div class="col form-group input-control">
+                          <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                          <div class="error"></div> 
+                        </div>
+                      </div>
+
+
+                      <div class="row">
+                        <div class="col form-group input-control">
+                          <label for="gender">Gender</label>
+                          <select id="gender" name="gender" class="form-control">
+                            <option value="select">Choose...</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                          </select>
+                          <div class="error"></div> 
+                          </div>
+                          
+                          <div class="col form-group input-control">
+                            <label for="study">Study</label>
+                            <select id="study" name="study" class="form-control">
+                              <option value="select">Choose...</option>
+                              <option value="maths">Maths</option>
+                              <option value="english">English</option>
+                              <option value="it">IT</option>
+                              <option value="other">Other</option>
+                            </select>
+                           <div class="error"></div> 
+                            </div>
+                        <div class="col form-group input-control">
+                          <label for="level">Level</label>
+                          <select id="level" name="level" class="form-control">
+                            <option value="select">Choose...</option>
+                            <option value="deploma">Deploma</option>
+                            <option value="degree">Degree</option>
+                            <option value="master">Master</option>
+                          </select>
+                          <div class="error"></div> 
+                        </div>
+                      </div>
+
+                      <div class="row"></div> <button  id="register" class="btn btn-success">Add Teacher</button> <div class="error" id="response-error"></div></div>
+                      </form>
+    
+                  
+                </dive>
+            </div>
+            </div>
+           
+        <div class="teacher-course-section">
+        </div>
+    
+    <div class="right-side-teacher"></div>
+                                
+                         
+		    <!------main-content-end-----------> 
+		  
+		  <!----footer-design------------->
+          
+		 </div>
+
+	  
+	 
+
+</div>
+
+
+
+
+
+<!-------complete html----------->
+
+
+
+
+
+  
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/formvalidation/teachervalidation.js"></script>
+   <script src="js/jquery-3.3.1.slim.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/jquery-3.3.1.min.js"></script>
+  
+  
+  <script type="text/javascript">
+       $(document).ready(function(){
+	      $(".xp-menubar").on('click',function(){
+		    $("#sidebar").toggleClass('active');
+			$("#content").toggleClass('active');
+		  });
+		  
+		  $('.xp-menubar,.body-overlay').on('click',function(){
+		     $("#sidebar,.body-overlay").toggleClass('show-nav');
+		  });
+		  
+	   });
+  </script>
+
+
+
+
+  </body>
+  
+  </html>
+
+
+
+
+
+
