@@ -39,8 +39,8 @@
         <div class="col-sm-12 col-xs-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="active nav-link" href="#subject_home" data-toggle="tab" style="padding-right: 15px;">Add Subject</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#assign_teacher" data-toggle="tab">Assign Teacher</a></li>
+                    <li class="nav-item"><a class="active nav-link" href="#subject_home" data-toggle="tab" style="padding-right: 15px;" id="subject-status">Add Subject</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#assign_teacher" data-toggle="tab" id="subject-teacher-status">Assign Teacher</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="active tab-pane" id="subject_home">
@@ -69,10 +69,10 @@
                                                 <td><%= subjects[i].title %></td>
                                                 <td>
                                                   <a href="#">
-                                                    <i class="material-icons"> edit</i>
+                                                    <i class="material-icons" id="update-subject" data-id="<%=subjects[i].id %>"> edit</i>
                                                   </a>
                                                   <a href="#">
-                                                    <i class="material-icons">delete</i>
+                                                    <i class="material-icons" id="delete-subject" data-id="<%=subjects[i].id %>">delete</i>
                                                   </a>
                                                
                                                 </td>
@@ -81,14 +81,8 @@
                                             <% } %>
                                               
                                           </tbody>
-                                          <tfoot>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Title</th>
-                                                
-                                              </tr>
-                                          </tfoot>
                                       </table>
+                                      <%-include('subjectModals')%>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +90,7 @@
                         <!-- /.post -->
 
                     </div>
-
+                    
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="assign_teacher">
                           <div class="row">
@@ -129,10 +123,10 @@
                                                 <td><%= data[i].subject %></td>
                                                 <td>
                                                   <a href="#">
-                                                    <i class="material-icons"> edit</i>
+                                                    <i class="material-icons" id="update-subject-teacher-info"data-id="<%= data[i].id %>"> edit</i>
                                                   </a>
                                                   <a href="#">
-                                                    <i class="material-icons">delete</i>
+                                                    <i class="material-icons" id="delete-subject-teacher" data-id="<%= data[i].id %>">delete</i>
                                                   </a>
                                                
                                                 </td>
@@ -141,16 +135,8 @@
                                             <% } %>
                                               
                                           </tbody>
-                                          <tfoot>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Teacher</th>
-                                                <th>Grade<th>
-                                                <th>Section</th>
-                                                <th>Subject</th>
-                                              </tr>
-                                          </tfoot>
                                       </table>
+                                      <%-include('subjectTeacherModals') %>
                                 </div>
                             </div>
                         </div>
@@ -184,8 +170,11 @@
    <script src="js/popper.min.js"></script>
    <script src="js/bootstrap.min.js"></script>
    <script src="js/jquery-3.3.1.min.js"></script>
-  
-  
+  <!-- subject Scripts-->
+  <script src="js/subject/delete_subject_teacher.js"></script>
+  <script src="js/subject/deleteSubject.js"></script>
+  <script src="js/subject/update_subject_teacher.js"></script>
+  <script src="js/subject/updateSubject.js"></script>
   <script type="text/javascript">
        $(document).ready(function(){
         $('#subject_info_table').DataTable();

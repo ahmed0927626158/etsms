@@ -30,10 +30,10 @@
 									<img src="images/dashboard/circle.svg"  class="card-img-absolute" alt="circle-image" />
 								  <h3 class="card-title text-white">Totale Teachers</h3>
 								  <div class="col-12">
-									<span class="card-text">Male 30</span>
-									<span class="card-text">Female 20</span>
+									<span class="card-text">Male <%= teacher_totale_male  %></span>
+									<span class="card-text">Female <%= teacher_totale_female  %></span>
 								  </div>
-								  <h5 class="card-text">Totale 50</h5>
+								  <h5 class="card-text">Totale <%=  teacher_totale_male+teacher_totale_female %></h5>
 								  
 								</div>
 					            </div>
@@ -44,10 +44,10 @@
 							  <img src="images/dashboard/circle.svg"  class="card-img-absolute" alt="circle-image" />
 								<h3 class="card-title text-white">Total Students </h3>
 								<div class="col-12">
-									<span class="card-text">Male 600</span>
-									<span class="card-text">Female 700</span>
+									<span class="card-text">Male <%= student_totale_male  %></span>
+									<span class="card-text">Female <%= student_totale_female  %></span>
 								  </div>
-								  <h5 class="card-text">Totale 13000</h5>
+								  <h5 class="card-text">Totale <%=  student_totale_male+student_totale_female %></h5>
 							  </div>
 							  </div>
 				           </div>
@@ -57,7 +57,7 @@
 							<img src="img/circle.svg"  class="card-img-absolute" alt="circle-image" />
 								<div class="card-body">
 								  <h3 class="card-title text-white">Total Section</h3>
-								  <h5 class="card-text"> 50</h5>
+								  <h5 class="card-text"><%= totale_section  %> </h5>
 								</div>
 					            </div>
 					        </div>
@@ -68,10 +68,10 @@
 									  <div class="card-body">
 										<h5 class="card-title text-white">Total Family</h5>
 										<div class="col-12">
-											<span class="card-text">Male 7000</span>
-											<span class="card-text">Female 2000</span>
+											<span class="card-text">Male <%= family_totale_male  %></span>
+											<span class="card-text">Female <%= family_totale_female  %></span>
 										  </div>
-										  <h5 class="card-text">Totale 9000</h5>
+										  <h5 class="card-text">Totale <%=  family_totale_male+family_totale_female %></h5>
 									  </div>
 									  </div>
 								  </div>
@@ -83,7 +83,7 @@
 										  <div class="card-body">
 											<h5 class="card-title text-white">Total Course</h5>
 											
-											  <h5 class="card-text"> 6</h5>
+											  <h5 class="card-text"> <%= totale_subject %></h5>
 										  </div>
 										  </div>
 									  </div>

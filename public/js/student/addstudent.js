@@ -22,7 +22,7 @@ const setSuccess = element => {
     const errorDisplay = inputControl.querySelector('.error');
     errorDisplay.innerText = '';
     count += 1
-    if(count==15) {
+    if(count==8) {
         var data = new FormData(add_student);
         var formDataObj = {};
         for (var [key, value] of data) {

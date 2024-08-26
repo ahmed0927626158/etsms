@@ -234,6 +234,7 @@
     document.querySelector('.navbar').classList.add('mt-3');
 
   }
+  /*
   document.querySelector('#bannerClose').addEventListener('click', function () {
     document.querySelector('#proBanner').classList.add('d-none');
     document.querySelector('#proBanner').classList.remove('d-flex');
@@ -246,5 +247,5 @@
     $.cookie('purple-pro-banner', "true", {
       expires: date
     });
-  });
+  });*/
 })(jQuery);

@@ -99,20 +99,19 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body" id="students">
-          <table id="stud_info_table" class="table table-striped" style="width:100%">
+          <table id="fam_stud_info_table" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
                   <th>#</th>
-                    <th>student firstname</th>
-                    <th>student middlename</th>
-                    <th>student lastname</th>
-                    <th>Student Grade</th>
-                    <th>Student Section</th>
-                    <th>father firstname</th>
-                    <th>father middlename</th>
-                    <th>father lastname</th>
-                    <th>father phone</th>
-                    <th>father email</th>
+                    <th>Student Full Name</th>
+                    
+                    <th>Student G & S</th>
+                   
+                    <th>Family Full Name</th>
+                    
+                   
+                    <th>family phone</th>
+                    <th>family email</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -120,48 +119,33 @@
               <% for (var i = 0; i < data.length; i++) { %>
                 <tr>
                   <td><%= data[i].id %></td>
-                  <td><%= data[i].student_firstname %></td>
-                  <td><%= data[i].student_middlename %></td>
-                  <td><%= data[i].student_lastname %></td>
-                  <td><%= data[i].grade %></td>
-                  <td><%= data[i].letter %></td>
-                  <td><%= data[i].father_firstname %></td>
-                  <td><%= data[i].father_middlename %></td>
-                  <td><%= data[i].father_lastname %></td>
+                  <td><%= data[i].student_firstname %> <%= data[i].student_middlename %></td>
+                                   
+                  <td><%= data[i].grade %> <%= data[i].letter %></td>
+                  
+                  <td><%= data[i].father_firstname %> <%= data[i].father_middlename %> <%= data[i].father_lastname %></td>
+                  
                   <td><%= data[i].father_phone %></td>
                   <td><%= data[i].father_email %></td>
                   
                   <td>
                     <a href="#">
-                      <i class="material-icons"> edit</i>
+                      <i class="material-icons" id="show-family-student-info" data-id="<%= data[i].id %>">info</i>
                     </a>
                     <a href="#">
-                      <i class="material-icons">delete</i>
+                      <i class="material-icons" id="update-family-student-info" data-id="<%= data[i].id %>"> edit</i>
                     </a>
-                 
+                    <a href="#">
+                      <i class="material-icons" id="delete-family-student" data-id="<%= data[i].id %>">delete</i>
+                    </a>
                   </td>
 
                 </tr>
               <% } %>
                 
             </tbody>
-            <tfoot>
-                <tr>
-                  <th>#</th>
-                  <th>student firstname</th>
-                    <th>student middlename</th>
-                    <th>student lastname</th>
-                    <th>Student Grade</th>
-                    <th>Student Section</th>
-                    <th>father firstname</th>
-                    <th>father middlename</th>
-                    <th>father lastname</th>
-                    <th>father phone</th>
-                    <th>father email</th>
-                 
-                </tr>
-            </tfoot>
         </table>
+        <%-include("familyStudentModals")%>
         </div>
         <!-- /.box-body -->
     </div>
@@ -189,8 +173,10 @@
 		  
 	   });
   </script>
-
-
+<!--scripts-->
+<script src="js/family/deleteFamilyStudent.js"></script>
+<script src="js/family/updateFamilyStudent.js"></script>
+<script src="js/family/showFamilyStudentInfo.js"></script>
   </body>
   </html>
 

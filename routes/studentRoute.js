@@ -4,9 +4,9 @@ const route=express.Router()
 
 route.get("/all",getStudents)
 route.get("/all-student-link",getSchoolStudentsForLink)
-route.get("/:id",getStudent)
+route.get("/info/:id",getStudent)
 route.post("/register",registerStudent)
-route.put("/:id",updateStudent)
-route.delete("/:id",deleteStudent)
+route.put("/update/:id",updateStudent)
+route.delete("/delete/:id",deleteStudent)
 
 module.exports=route

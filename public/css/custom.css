@@ -9,7 +9,6 @@ body,html{
 	padding:0px;
 }
 
-
 /*==========================================================
   material-icon font-style
   ================================*/
@@ -128,7 +127,6 @@ overflow:auto;
   }
   
   .dasboard-card{
-	display:flex
 	flex-direction: row;
 	width: 300px;
 	align-items: center;

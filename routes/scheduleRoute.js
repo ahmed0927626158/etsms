@@ -5,7 +5,7 @@ const route=express.Router()
 
 route.get("/all",getSchedules)
 route.get("/assign-schedule",getAssignSchedule)
-route.get("/:id",getSchedule)
+route.get("/info/:id",getSchedule)
 route.post("/register",registerSchedule)
 // route.put("/:id",registerStudent)
 

@@ -27,7 +27,7 @@ try {
     if(id=="al"){
         dbPool.query(selectAttendanceAll,[teacher_id,company_id],(error,result)=>{
             if(error){
-                console.log(error)
+               
             }
            
             return res.status(200).json({data:result})
@@ -78,22 +78,22 @@ try {
 const getSingleAttendance=(req,res)=>{
 const {id}=req.params
 const teacher_id=req.id
-
 const selectStudId="SELECT student_id FROM attendance WHERE id=?"
-const selectAttendanceAll=`SELECT s.id, s.firstname,s.middlename,s.lastname,  TIME_FORMAT(st.start_time, "%H:%i") as start_time,TIME_FORMAT(st.end_time, "%H:%i") as end_time,sc.day_title,a.status, DATE_FORMAT(STR_TO_DATE(a.date, '%Y-%m-%dT%H:%i:%s.%fZ'), '%y %m %d') as date FROM attendance AS a JOIN student as s ON s.id=a.student_id JOIN techer as t ON t.id=a.techer_id  JOIN schedule_time as st ON a.schedule_time_id=st.id  JOIN  schedul_part as sp ON sp.schedule_time_id=a.schedule_time_id JOIN schedul as sc on sc.id=sp.schedul_id WHERE t.id=? AND a.student_id=? AND (a.status = 'absent' OR a.date = CURDATE()) ORDER BY a.date DESC `
+const selectAttendanceAll=`SELECT s.id, s.firstname,s.middlename,s.lastname, TIME_FORMAT(st.start_time, "%H:%i") as start_time,TIME_FORMAT(st.end_time, "%H:%i") as end_time,sc.day_title,a.status, DATE_FORMAT(STR_TO_DATE(a.date, '%Y-%m-%dT%H:%i:%s.%fZ'), '%y %m %d') as date FROM attendance AS a JOIN student as s ON s.id=a.student_id JOIN techer as t ON t.id=a.techer_id  JOIN schedule_time as st ON a.schedule_time_id=st.id  JOIN  schedul_part as sp ON sp.schedule_time_id=a.schedule_time_id JOIN schedul as sc on sc.id=sp.schedul_id WHERE t.id=? AND a.student_id=?  ORDER BY a.date DESC `
 
 dbPool.query(selectStudId,[id],(error,result)=>{
     if(error){
-        console.log(error)
+        return res.status(400).json({error:error['sqlMessage']})
     }
-    const studId=result[0]['student_id'] 
+  
+var studId=result[0]['student_id'] 
+    
     dbPool.query(selectAttendanceAll,[teacher_id,studId],(error,result)=>{
-        console.log(error)
      if(error){
          return res.status(400).json({error:error['sqlMessage']})
         }
         const absentCount = result.filter(record => record.status === 'absent').length;
-        console.log(absentCount)
+       
          return res.status(200).json({attendanceData:result,totale_absent:absentCount})
     })
 

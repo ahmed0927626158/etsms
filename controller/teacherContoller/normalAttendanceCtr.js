@@ -87,7 +87,7 @@ const updateStudentAttendance=(req,res)=>{
             }
            
             if(result.length==0){
-                return res.status(400).json({error:"Student attendance not found"})
+                return res.status(400).json({error:"you can not update attendance now"})
             }
             // console.log(req.body)
             var counter=0
@@ -105,7 +105,7 @@ const updateStudentAttendance=(req,res)=>{
                     // Check if the current time is between startTime and endTime
                     currentTime=(moment(currentTime).subtract(6, 'hours'))
                     const isBetween = currentTime.isBetween(moment(startTime,'HH:mm'), moment(endTimeAdd10,'HH:mm'), null, '[]'); // '[]' includes the 
-                    console.log(isBetween)
+                    
                     // console.log(attendance)
                     if(isBetween){
                         return new Promise((resolve,reject)=>{

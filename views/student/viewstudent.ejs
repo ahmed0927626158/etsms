@@ -85,7 +85,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total Student</span>
-                    <span class="info-box-number count_student"></span>
+                    <span class="info-box-number count_student"><?php echo $total_student; ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -111,7 +111,7 @@
                     <th>Address</th>
                     <th>Grade</th>
                     <th>Section</th>
-                    <th>Acction</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -128,10 +128,13 @@
                   <td><%= data[i].letter %></td>
                   <td>
                     <a href="#">
-                      <i class="material-icons"> edit</i>
+                      <i class="material-icons" id="show-student-info" data-id="<%= data[i].id %>">info</i>
                     </a>
                     <a href="#">
-                      <i class="material-icons">delete</i>
+                      <i class="material-icons" id="update-student-info" data-id="<%= data[i].id %>"> edit</i>
+                    </a>
+                    <a href="#">
+                      <i class="material-icons"id="delete-student" data-id="<%= data[i].id %>">delete</i>
                     </a>
                  
                   </td>
@@ -140,20 +143,8 @@
               <% } %>
                 
             </tbody>
-            <tfoot>
-                <tr>
-                  <th>#</th>
-                  <th>First Name</th>
-                  <th>Middle Name</th>
-                  <th>Last Name</th>
-                  <th>Gender</th>
-                  <th>Birth Date</th>
-                  <th>Address</th>
-                  <th>Grade</th>
-                  <th>Section</th>
-                </tr>
-            </tfoot>
         </table>
+        <%- include('studentModals') %>
         </div>
         <!-- /.box-body -->
     </div>
@@ -181,8 +172,11 @@
 		  
 	   });
   </script>
-
-
+  
+<!---scripts-->
+<script src="js/student/deleteStudent.js"></script>
+<script src="js/student/showStudentInfo.js"></script>
+<script src="js/student/updateStudent.js"></script>
   </body>
   </html>
 

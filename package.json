@@ -25,6 +25,7 @@
     "mongoose": "^8.4.5",
     "mysql2": "^3.10.2",
     "nodemailer": "^6.9.14",
+    "update": "^0.7.4",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

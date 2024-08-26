@@ -18,9 +18,28 @@ const getTecherGradeSubs=(req,res)=>{
     }
 }
 
-const getTecherGradeSub=(req,res)=>{
+/*const getTecherGradeSub=(req,res)=>{
     const {id}=req.params
-    try{
+    const company_id=req.id
+    const selectSubjects="SELECT s.id, s.title FROM subject AS s WHERE s.company_id=?"
+    const selecTeacherSubjectGrade="SELECT tcg.id, t.firstname AS teachername,t.middlename,t.lastname,g.grade,l.letter AS section,s.title AS subject FROM techer_course_grade AS tcg JOIN techer AS t ON t.id=tcg.techer_id JOIN letter_grades AS l ON l.id=tcg.letter_grade_id JOIN grade AS g ON l.grade_id=g.id JOIN subject AS s ON s.id=tcg.subject_id WHERE t.company_id=? AND tcg.id=?"
+    // select Subjects
+    dbPool.query(selectSubjects,[company_id],(error,result)=>{
+        if(error){
+            console.log(error)
+        }
+        const subjects=result
+        dbPool.query(selecTeacherSubjectGrade,[company_id,id],(error,result)=>{
+            if(error){
+                return res.status(400).json({error:error['sqlMessage']})
+            }
+            //return res.status(200).json({data:result})
+            //return res.status(200).json({ data: data })
+            //res.render("subject/managesubject",{date:formattedDate,subjects:subjects,data:result})
+            return res.status(200).json({ subjects: subjectsResult, teacherData: teacherResult });
+        })
+    })*/    
+    /*try{
         const data= dbPool.query(' SELECT * FROM techer_course_grade WHERE id=?',[id]);
         if(!data){
             return res.status(404).send({
@@ -32,13 +51,60 @@ const getTecherGradeSub=(req,res)=>{
     }
     catch(error){
         res.status(400).send({error:error})
-    }
+    }*
+}*/
+
+const getTeacherGradeSub = (req, res) => {
+    const { id } = req.params;
+    const company_id = req.id;
+    console.log(id)
+    try{
+    const selectSubjects = "SELECT s.id, s.title FROM subject AS s WHERE s.company_id=?";
+    const selectTeacherSubjectGrade = `
+        SELECT tcg.id, t.firstname AS teachername, t.middlename, t.lastname, g.grade, l.letter AS section, s.title AS subject 
+        FROM techer_course_grade AS tcg 
+        JOIN techer AS t ON t.id = tcg.techer_id 
+        JOIN letter_grades AS l ON l.id = tcg.letter_grade_id 
+        JOIN grade AS g ON l.grade_id = g.id 
+        JOIN subject AS s ON s.id = tcg.subject_id 
+        WHERE t.company_id=? AND tcg.id=?`;
+
+    // Select Subjects
+    dbPool.query(selectSubjects, [company_id], (error, subjectsResult) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if(subjectsResult.length==0){
+            return res.status(400).json({ error: "subject not found" })
+        }
+
+        // Select Teacher Subject Grade
+        dbPool.query(selectTeacherSubjectGrade, [company_id, id], (error, teacherResult) => {
+            if (error) {
+                return res.status(400).json({ error: error['sqlMessage'] });
+            }
+            if (teacherResult.length == 0) {
+                
+                return res.status(400).json({ error: "info not found" })
+            }
+            return res.status(200).json({ subjects: subjectsResult, teacherData: teacherResult });
+        });
+    });
+}catch(error){
+  
+    res.status(400).send({error:error})
 }
+};
+
+
+
 
 const getTecherGradeSubLink=(req,res)=>{
     const {schedul_id,subject_id}=req.query
     const selectTeacherGradeSubject="SELECT t.id,t.firstname,t.middlename,t.phone FROM techer AS t JOIN techer_course_grade AS tcg ON t.id=tcg.techer_id JOIN schedul AS s ON s.letter_grade_id=tcg.letter_grade_id JOIN subject AS sb ON tcg.subject_id=sb.id WHERE s.id=? AND sb.id=?"
     try{
+        
        dbPool.query(selectTeacherGradeSubject,[schedul_id,subject_id],(error,result)=>{
         if(error){
             console.log(error)
@@ -59,11 +125,6 @@ const getTecherGradeSubLink=(req,res)=>{
         res.status(400).send({error:error})
     }
 }
-
-
-
-
-
 
 
 
@@ -122,4 +183,27 @@ try{
         res.status(400).send({error:error})
     }
 }
-module.exports={getTecherGradeSub,getTecherGradeSubs,registerTecherGradeSub,getTecherGradeSubLink}
+//////new
+
+const deleteTeacherGradeSubs = (req, res) => {
+    try {
+        const { id } = req.params
+        const deleteQuery = "DELETE FROM techer_course_grade WHERE id=?"
+            dbPool.query(deleteQuery, [id], (error, result) => {
+                if (error) {
+                    return res.status(400).json({ error: error['sqlMessage'] })
+                }
+                if (result['affectedRows'] != 1) {
+                    return res.status(400).json({ error: "Teacher subject link not removed" })
+                }
+                return res.status(200).json({ data: "Teacher subject link removed successfuly" })
+
+            })
+
+        
+
+    } catch (error) {
+        return res.status(500).json({ error: "internal server error" })
+    }
+}
+module.exports={getTecherGradeSubs,getTeacherGradeSub,registerTecherGradeSub,getTecherGradeSubLink,deleteTeacherGradeSubs}

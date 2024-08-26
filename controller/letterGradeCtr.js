@@ -19,14 +19,14 @@ const getSectionOfGrade=(req,res)=>{
     const {grade}=req.params
     const  comp_id=req.id
     try{
-        dbPool.query('SELECT id FROM grade AS g WHERE g.id=? AND g.company_id=? AND company_id=?',[grade,comp_id,comp_id],(error,result)=>{
+        dbPool.query('SELECT id FROM grade AS g WHERE g.grade=? AND g.company_id=? AND company_id=?',[grade,comp_id,comp_id],(error,result)=>{
             if(error){
                 return res.status(404).send({
                     success:false,
                     "error":error
                 })
             }
-            else if(result.length==0){
+             if(result.length==0){
                 return res.status(404).send({data:[null]})
             }
             let id=result[0]['id']

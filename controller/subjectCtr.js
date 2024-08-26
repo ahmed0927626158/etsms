@@ -46,7 +46,7 @@ const getSubject=(req,res)=>{
             if(error){
                 return res.status(400).json({error:error['sqlMessage']})
             }
-            return res.status(200).json({data:result})
+            return res.status(200).json(result[0])
         });
     }
     catch(error){
@@ -84,71 +84,81 @@ const company_id=req.id
 
 const updateSubject=(req,res)=>{
 try{
-    const {old_title,new_title}=req.body
+    
+    const {id}=req.params
+    
+    //const {old_title,new_title}=req.body
+    const {update_title}=req.body
     const company_id=req.id
-    if(!old_title||!new_title){
+    console.log(id,update_title)
+    if(!update_title){
         return  res.status(400).json({error:"All fields are required"})
     }
-    const selectSubject="SELECT id,title FROM subject WHERE title=? AND company_id=?"
+    const selectSubject="SELECT id,title FROM subject WHERE company_id=? AND id=?"
     const updateSubject="UPDATE subject SET title=? WHERE id=?"
-    dbPool.query(selectSubject,[old_title,company_id],(error,result)=>{
+    dbPool.query(selectSubject,[company_id,id],(error,result)=>{
         if(error){
             return res.status(400).json({error:error['sqlMessage']})
         }
         if(result.length==0){
             return res.status(400).json({error:"Course not found"})
         }
-        let subject_id=result[0]['id']
-        dbPool.query(selectSubject,[new_title],(error,result)=>{
-            if(error){
-            return res.status(400).json({error:error['sqlMessage']})
-            }
-            if(result.length>0){
-            return res.status(400).json({error:"Course is Already exist"})
-            }
-            dbPool.query(updateSubject,[new_title,subject_id],(error,result)=>{
+            dbPool.query(updateSubject,[update_title,id],(error,result)=>{
+                
                 if(error){
+                    
                    return res.status(400).json({error:error['sqlMessage']})
                 }
-                if(result['changedRows']==1){
-                    return res.status(200).json({data:`Course ${old_title} is changed to ${new_title}`})
+                if (result['changedRows'] != 1) {
+                    return res.status(400).json({ error: "Course not updated" })
                 }
-                else{
-                   return res.status(404).json({error:"Course not changed"})
-                }
+                //return res.status(200).json({ data: "Course has been updated" })
+                return res.status(200).json({data:"Family information has been updated."})
+                
             })
         })
-    })
 }catch(error){
     return res.status(400).json({error:error})
 }
 }
 
 const deleteSubject=(req,res)=>{
+
     try{
-const {title}=req.body
+
+const { id } = req.params
+
+//const {title}=req.body
 const company_id=req.id
-const selectSubject="SELECT id,title FROM subject WHERE title=? AND company_id=?"
+const selectSubject="SELECT title FROM subject WHERE id=? AND company_id=?"
 const deleteSubject="DELETE FROM subject WHERE id=?"
-dbPool.query(selectSubject,[title,company_id],(error,result)=>{
+dbPool.query(selectSubject,[id,company_id],(error,result)=>{
+    
     if(error){
+        
         return res.status(400).json({error:error['sqlMessage']})
     }
-    if(result.length==0){
-        return res.status(400).json({error: "Course not found"})
+    if (result.length == 0) {
+        return res.status(400).json({ error: "User not found" })
     }
-    let subject_id=result[0]['id']
-    dbPool.query(deleteSubject,[subject_id],(error,result)=>{
+    
+    let title=result[0]['title']
+    dbPool.query(deleteSubject,[id],(error,result)=>{
         if(error){
+            
         return res.status(400).json({error: error['sqlMessage']})
         }
-        if(result['affectedRows']==1){
+        if (result['affectedRows'] != 1) {
+            return res.status(400).json({ error: "User not deleted" })
+        }
         return res.status(200).json({data: `Course ${title} deleted successfuly`})
-         }
+         
     })
 })
     }catch(error){
+        console.log("hhhhui")
         return res.status(400).json({error: error})
     }
 }
+
 module.exports={getSubjects,getSubject,registerSubject,deleteSubject,updateSubject,getSubjectAssign}

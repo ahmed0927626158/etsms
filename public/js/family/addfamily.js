@@ -22,7 +22,7 @@ const setSuccess = element => {
     const errorDisplay = inputControl.querySelector('.error');
     errorDisplay.innerText = '';
     count += 1
-    if(count==8) {
+    if(count==7) {
         var data = new FormData(add_family);
         var formDataObj = {};
         for (var [key, value] of data) {
@@ -72,13 +72,13 @@ const middlename = document.getElementById('middlename');
 const lastname = document.getElementById('lastname');
 const gender = document.getElementById('gender');
 const phone = document.getElementById('phone');
-const birthdate = document.getElementById('datepicker');
+//const birthdate = document.getElementById('datepicker');
 const address = document.getElementById('address');
 const email = document.getElementById('email');
      var firstnamevalue=firstname.value;
       var middlenameValue=middlename.value;
       var lastnamevalue=lastname.value;
-      var birthdateValue=birthdate.value;
+      //var birthdateValue=birthdate.value;
       var addressValue=address.value;
       var phoneValue=phone.value;
       var emailValue=email.value;
@@ -87,9 +87,6 @@ const email = document.getElementById('email');
       console.log(firstnamevalue.length)
       
       
-      
-    
-
       setError(firstname, 'First name is required');
     if(firstnamevalue ===''||firstnamevalue.length==0) {
         setError(firstname, 'First name is required');
@@ -109,13 +106,13 @@ const email = document.getElementById('email');
         setSuccess(middlename);
     }
 
-
+/*
     if(birthdateValue==''||birthdateValue==null){
         setError(birthdate,"Birt Date is required")
     }
     else{
         setSuccess(birthdate)
-    }
+    }*/
     if(addressValue==''){
         setError(address,"Address is required")
     }

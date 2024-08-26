@@ -18,6 +18,19 @@ a {
     .active{
       background-color: #1974d2;
     }
+ .card-container {
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+  grid-gap: 20px; /* Adjust the gap between cards as needed */
+  padding: 20px;
+}
+
+.card {
+  background-color: #f4f4f4;
+  padding: 20px;
+  text-align: center;
+}
 
 .content{
   display: flex;
