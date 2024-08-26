@@ -30,9 +30,9 @@ const getFamliy=(req,res)=>{
                 return res.status(400).json({error:error['sqlMessage']})
             }
             if(result.length==0){
-                return res.status(400).json({error:"Student No found"})
+                return res.status(400).json({error:"Family Not found"})
             }
-            return res.status(200).json({data:result})
+            return res.status(200).json(result[0])
         });
     }
     catch(error){
@@ -71,15 +71,18 @@ function generatePassword(){
 
 }
 const registerFamily=(req,res)=>{
+    
   const company_id=req.id
-const {firstname,middlename,lastname,gender,birthdate,phone,email,address}=req.body;
+const {firstname,middlename,lastname,gender,phone,email,address}=req.body;
 const password=generatePassword();
 const password_status="new"
 const status="open"
+
 const selectQuery="SELECT phone,company_id FROM family WHERE phone=? AND company_id=?"
-const insertQuery="INSERT INTO family(firstname,middlename,lastname,gender,birthdate,phone,email,address,company_id,password,password_status,status)  VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
+const insertQuery="INSERT INTO family(firstname,middlename,lastname,gender,phone,email,address,company_id,password,password_status,status)  VALUES(?,?,?,?,?,?,?,?,?,?,?)"
     try{
         // Check if family registered before
+       
         dbPool.query(selectQuery,[phone,company_id],(error,result)=>{
             if(error){
                 return res.status(400).json({error:error['sqlMessage']})
@@ -87,28 +90,31 @@ const insertQuery="INSERT INTO family(firstname,middlename,lastname,gender,birth
             if(result.length>0){
                     return res.status(400).json({error:"User already registered"})
             }
+            
             // registere family here if not found
             dbPool.query(insertQuery,
-                [firstname,middlename,lastname,gender,birthdate,phone,email,address,company_id,password,password_status,status],(error,result)=>{
+                [firstname,middlename,lastname,gender,phone,email,address,company_id,password,password_status,status],(error,result)=>{
                     if(error){
                         return res.status(400).json({error:error['sqlMessage']})
                     }
+                    
                 return  res.status(200).json({insertedId:result.insertId,"firstname":firstname,"middlename":middlename,"phone":phone}) 
                 });
         })       
     }
     catch(error){
-        res.status(400).send({error:error})
+        
+       return res.status(400).send({error:error})
     }
 }
 
 
 const updateFamily=(req,res)=>{
     const selectQuery="SELECT id FROM family WHERE id=?"
-    const updateQuery="UPDATE family SET firstname=?,middlename=?,lastname=?,phone=?,address=? WHERE id=?"
+    const updateQuery="UPDATE family SET firstname=?,middlename=?,lastname=?,gender=?,phone=?,address=? WHERE id=?"
 try {
     const {id}=req.params
-    const {firstname,middlename,lastname,phone,address}=req.body;
+    const {firstname,middlename,lastname,gender,phone,address}=req.body;
     // Check student if registered
     dbPool.query(selectQuery,[id],(error,result)=>{
         if(error){
@@ -118,14 +124,14 @@ try {
             return res.status(400).json({error:"Family not found"})
         }
         // Update student
-        dbPool.query(updateQuery,[firstname,middlename,lastname,phone,address,id],(error,result)=>{
+        dbPool.query(updateQuery,[firstname,middlename,lastname,gender,phone,address,id],(error,result)=>{
             if(error){
             return res.status(400).json({error:error['sqlMessage']})
             }
             if(result['changedRows']!=1){
-            return res.status(400).json({error:"Family not updated"})
+            return res.status(400).json({error:"No family information has been updated.Please Try again!"})
             }
-            return res.status(200).json({data:"Family updated"})
+            return res.status(200).json({data:"Family information has been updated."})
         })
     })
 } catch (error) {

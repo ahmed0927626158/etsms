@@ -3,10 +3,10 @@ const mysql =require("mysql2");
 const dbConfig=()=>{
     try{
       const mySqlPool=  mysql.createPool({
-            host:"bu4uqfpa88bdolzxu9ki-mysql.services.clever-cloud.com",
-            user:"uiurvzcb1jhhm0aw",
-            password:'3ZYMghvQUgoDmhX1QV4c',
-            database:"bu4uqfpa88bdolzxu9ki"
+            host:"localhost",
+            user:"root",
+            password:'',
+            database:"myschool"
         })
         if (mySqlPool){
             console.log("DB Connected")

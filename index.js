@@ -118,22 +118,84 @@ const generateRandomColor = () => {
     const a = (Math.random() * (1 - 0.1) + 0.1).toFixed(2); // Alpha between 0.1 and 1
     return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
-app.get("/home",companyAuthMiddleware,(req,res)=>{
+app.get("/home",companyAuthMiddleware, async(req,res)=>{
+
+    
     const company_id=req.id
     const selectMark="SELECT name,percent FROM mark_type WHERE company_id=?"
+    
+    const teacherData=` SELECT
+            COUNT(CASE WHEN gender = 'male' THEN 1 END) AS male_count,
+            COUNT(CASE WHEN gender = 'female' THEN 1 END) AS female_count    FROM techer WHERE company_id=?`
+
+  const studentData=` SELECT
+            COUNT(CASE WHEN gender = 'male' THEN 1 END) AS male_count,
+            COUNT(CASE WHEN gender = 'female' THEN 1 END) AS female_count    FROM student WHERE company_id=?`
+   
+const familyData=` SELECT
+            COUNT(CASE WHEN gender = 'male' THEN 1 END) AS male_count,
+            COUNT(CASE WHEN gender = 'female' THEN 1 END) AS female_count    FROM family WHERE company_id=?`
+    const sectionData="SELECT COUNT(*) as totale_section FROM letter_grades WHERE company_id=?"
+    const subjectData="SELECT COUNT(*) as totale_subject FROM subject WHERE company_id=?"
     dbPool.query(selectMark,[company_id],(error,result)=>{
         if(error){
             console.log(error['sqlMessage'])
         }
+        var mark=result
+        var totale_section,totale_subject
+            // count section
+            dbPool.query(sectionData,[company_id],(error,result)=>{
+                if(error){
+                    console.log(error)
+                }
+                totale_section=result[0]['totale_section']
+            })
+        // count subject
+        dbPool.query(subjectData,[company_id],(error,result)=>{
+            if(error){
+                console.log(error)
+            }
+            totale_subject=result[0]['totale_subject']
+        })
+        // count female male teacher
+        dbPool.query(teacherData,[company_id],(error,result)=>{
+            if(error){
+                console.log(error)
+            }
+            const teacher_totale_male= result[0].male_count
+            const teacher_totale_female=result[0].female_count
+
+            // count female male
+        dbPool.query(studentData,[company_id],(error,result)=>{
+            if(error){
+                console.log(error)
+            }
+            const student_totale_male=result[0].male_count
+            const student_totale_female=result[0].female_count
+    // count family
+            dbPool.query(familyData,[company_id],(error,result)=>{
+                if(error){
+                    console.log(error)
+                  }
+            const family_totale_male=result[0].male_count
+            const family_totale_female=result[0].female_count
+
+            const showMark=mark.length>0
+            const markLabel = mark.map(mark => mark.name+" "+mark.percent+"%");
+             const percents = mark.map(item => item.percent);
+            const colors={
+                backgroundColor:Array.from({ length: mark.length }, generateRandomColor)
+             } 
+            
+            res.render("home",{date:formattedDate,colors,markLabel,percents,showMark,teacher_totale_male,teacher_totale_female,student_totale_female,student_totale_male,totale_section,family_totale_female,family_totale_male,totale_subject})
+          
+                
+              })
+
+          })
+       })
         
-        const showMark=result.length>0
-        const markLabel = result.map(mark => mark.name+" "+mark.percent+"%");
-         const percents = result.map(item => item.percent);
-        const colors={
-            backgroundColor:Array.from({ length: result.length }, generateRandomColor)
-         } 
-        
-        res.render("home",{date:formattedDate,colors,markLabel,percents,showMark})
+
     })
     // res.render("home",{date:formattedDate})
 })
@@ -226,6 +288,7 @@ app.get("/view-family-student",companyAuthMiddleware,(req,res)=>{
             if(result.length==0){
                 return res.status(400).json({error:"No family registered"})
             }
+            
             // return res.status(200).json({data:result})
             res.render("family/viewfamilystudent",{date:formattedDate,data:result})
         });   

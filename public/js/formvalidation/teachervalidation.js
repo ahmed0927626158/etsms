@@ -1,4 +1,3 @@
-
 const form = document.getElementById('teacher-form');
 let count = 0
 form.addEventListener('submit', (event) => {
@@ -47,7 +46,7 @@ const setSuccess = element => {
             $('#register').prop('disabled', false);
             form.reset();
             Swal.fire({
-                title:resp,
+                title:"The teacher added successfully",
                 icon: "success"
                 });
              
@@ -63,6 +62,7 @@ const setSuccess = element => {
                    
             }
         });
+        
     }
 };
 

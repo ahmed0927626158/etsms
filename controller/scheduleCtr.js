@@ -16,8 +16,10 @@ const getSchedules=(req,res)=>{
 }
 
 const getSchedule=(req,res)=>{
+    
 const {id}=req.params
-const selectQuery='SELECT s.*,l.*,g.grade FROM schedul AS s '+'JOIN letter_grades AS l ON s.letter_grade_id=l.id '+'JOIN grade AS g ON l.grade_id=g.id '+'WHERE s.id=?'
+console.log('errrppp',id)
+const selectQuery='SELECT s.*,s.id AS schedule_id,l.*,g.grade FROM schedul AS s '+'JOIN letter_grades AS l ON s.letter_grade_id=l.id '+'JOIN grade AS g ON l.grade_id=g.id '+'WHERE s.id=?'
 const selectSchedule="SELECT id FROM schedul WHERE id=?"
     try{
         dbPool.query(selectSchedule,[id],(error,result)=>{
@@ -31,7 +33,7 @@ const selectSchedule="SELECT id FROM schedul WHERE id=?"
                 if(error){
                     return res.status(400).json({error:error['sqlMessage']})
                 }
-                return res.status(200).json({data:result})
+                return res.status(200).json({ data: result[0] });
                });
         })
             }

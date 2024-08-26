@@ -6,15 +6,7 @@ const selectQuery='SELECT TIME_FORMAT(st.start_time, "%H:%i") as start_time,TIME
 // const teacherSubjectGradeQuery="SELECT t.id,t.firstname,sb.id,sb.title,g.grade,g.id,l.letter,l.id FROM schedul_part AS sp JOIN techer AS t ON sp.techer_id=t.id JOIN subject AS sb ON sp.subject_id=sb.id JOIN schedul AS sc ON sc.id=sp.schedul_id JOIN letter "
 moment.tz.setDefault("Africa/Addis_Ababa")
 const getAttendanceType=(req,res,next)=>{
-  try {
-    
-  
-    var currentTime=moment().tz('Africa/Addis_Ababa');
-    console.log(currentTime.hour())
-    currentTime=moment(currentTime).subtract(6, 'hours')
-    
     const teacher_id=req.id
-    console.log(day)
     dbPool.query(selectQuery,[teacher_id,day],(error,result)=>{
         if(error){
             return res.status(400).json({error:error['sqlMessage']})
@@ -25,7 +17,9 @@ const getAttendanceType=(req,res,next)=>{
            return res.redirect(url)
             // return res.status(400).json({error:"Schedule not found"})
         }
-      
+        var currentTime=moment().tz('Africa/Addis_Ababa');
+        currentTime=moment(currentTime).subtract(6, 'hours')
+       
             const currentTimeRange=result.find(range=>{
             var startTimeArray = range.start_time.split(':');
             var startT = startTimeArray[0].replace(/^0+/, '') + ':' + startTimeArray[1];
@@ -45,8 +39,5 @@ const getAttendanceType=(req,res,next)=>{
             next()
         }
     })
-} catch (error) {
-    
-}
 }
 module.exports=getAttendanceType

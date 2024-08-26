@@ -1,4 +1,4 @@
-<div class="box ">
+<div class="box " id="add-schedule-box">
     <!-- Visit "codeastro.com" for more projects! -->
       <div class="box-body">
           <div class="box-header add_class_msg text-red"></div>  
@@ -30,6 +30,36 @@
           </form>    
       </div>
   </div>
+<!-- Update Schedule Box -->
+<div class="box" id="update-schedule-box" style="display: none;">
+    <div class="box-body">
+        <div class="box-header add_class_msg text-red"></div>  
+        <form name="add_schedule_day" id="add_schedule_day">   
+            <div class="form-group has-feedback">
+                <label>Schedule Date</label>
+                <input type="date" class="form-control" name="schedule_date" required>
+            </div> 
+            <div class="form-group input-control">
+                <label>Grade and Section</label>
+                <span id="day-grade-section-value" style="color: green;border: 1px solid green;"></span><br>
+                <div id="letter_grade_id" name="letter_grade_id" class="letter_grade_id"></div>
+                <div class="error"></div>
+            </div>
+            <!-- Day -->
+            <div class="form-group input-control">
+                <label>Day</label>
+                <span id="day-section-value" style="color: green;border: 1px solid green;"></span>
+                <span hidden id="day-schedule-id-value" style="color: green;border: 1px solid green;"></span><br>
+                <div id="day_title" name="title" class="day_title"></div>
+                <div class="error"></div>
+            </div>
+            <!-- Section -->
+            <div class="form-group has-feedback">
+                <button class="btn btn-success" id="register" name="update_schedule" id="save-update-schedule-day">Update Schedule Date Class</button>
+            </div> 
+        </form>    
+    </div>
+</div>
   <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 <script src="js/virtual-select.min.js"></script>
   <script>

@@ -4,7 +4,7 @@ const route=express.Router()
 
 
 route.get("/all",getFamilyStudents)
-route.get("/:id",getFamilyStudent)
+route.get("/info/:id",getFamilyStudent)
 route.post("/register",registerFamilyStudent)
 route.put("/:id",updateFamilyStudent)
 

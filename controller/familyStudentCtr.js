@@ -2,7 +2,7 @@
 const dbPool=require("../config/dbConfig")
 const family_student_model=require("../models/student.family.model")
 const getFamilyStudents=(req,res)=>{
-const allFamilyStudentQuery="SELECT fs.id,f.firstname AS father_firstname,f.middlename AS father_middlename,f.lastname AS father_lastname,f.phone AS father_phone,f.email AS father_email,s.firstname AS student_firstname,s.middlename AS student_middlename,s.lastname AS student_lastname, l.letter ,g.grade FROM family_student AS fs JOIN family AS f ON fs.family_id=f.id JOIN student AS s ON fs.student_id=s.id JOIN letter_grades AS l ON s.letter_grade_id=l.id JOIN grade AS g ON l.grade_id=g.id"
+const allFamilyStudentQuery="SELECT fs.id,f.firstname AS family_firstname,f.middlename AS family_middlename,f.lastname AS family_lastname,f.phone AS family_phone,f.email AS family_email,s.firstname AS student_firstname,s.middlename AS student_middlename,s.lastname AS student_lastname, l.letter ,g.grade FROM family_student AS fs JOIN family AS f ON fs.family_id=f.id JOIN student AS s ON fs.student_id=s.id JOIN letter_grades AS l ON s.letter_grade_id=l.id JOIN grade AS g ON l.grade_id=g.id"
     try{
         dbPool.query(allFamilyStudentQuery,(error,result)=>{
             if(error){
@@ -12,6 +12,7 @@ const allFamilyStudentQuery="SELECT fs.id,f.firstname AS father_firstname,f.midd
                 return res.status(400).json({error:"No family registered"})
             }
             console.log(result)
+            
             return res.status(200).json({data:result})
         });   
     }
@@ -24,7 +25,8 @@ const allFamilyStudentQuery="SELECT fs.id,f.firstname AS father_firstname,f.midd
 
 const getFamilyStudent=(req,res)=>{
     const {id}=req.params
-const familyStudent="SELECT fs.id,f.firstname AS father_firstname,f.middlename AS father_middlename,f.lastname AS father_lastname,s.firstname AS student_firstname,s.middlename AS student_middlename,s.lastname AS student_lastname, l.letter ,g.grade FROM family_student AS fs JOIN family AS f ON fs.family_id=f.id JOIN student AS s ON fs.student_id=s.id JOIN letter_grades AS l ON s.letter_grade_id=l.id JOIN grade AS g ON l.grade_id=g.id WHERE fs.id=?"
+    
+const familyStudent="SELECT fs.id,f.firstname AS family_firstname,f.middlename AS family_middlename,f.lastname AS family_lastname,f.gender AS family_gender,f.phone AS family_phone,f.email AS family_email,f.address AS family_address,s.firstname AS student_firstname,s.middlename AS student_middlename,s.lastname AS student_lastname, l.letter ,g.grade FROM family_student AS fs JOIN family AS f ON fs.family_id=f.id JOIN student AS s ON fs.student_id=s.id JOIN letter_grades AS l ON s.letter_grade_id=l.id JOIN grade AS g ON l.grade_id=g.id WHERE fs.id=?"
     try{
       dbPool.query(familyStudent,[id],(error,result)=>{
         if(error){
@@ -33,7 +35,8 @@ const familyStudent="SELECT fs.id,f.firstname AS father_firstname,f.middlename A
         if(result.length==0){
             return res.status(400).json({error:"This family  not registered"})
         }
-        return res.status(200).json({data:result})
+        
+        return res.status(200).json(result[0])
       });   
     }
     catch(error){

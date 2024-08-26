@@ -1,5 +1,4 @@
 
-
 <!doctype html>
 <html lang="en">
  <%- include('../partials/header'); -%>
@@ -39,7 +38,7 @@
         <div class="col-sm-12 col-xs-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="active nav-link" href="#subject_home" data-toggle="tab" style="padding-right: 15px;">Add Schedule Date With Class</a></li>
+                    <li class="nav-item"><a class="active nav-link" href="#subject_home" data-toggle="tab" id="update-date-schedule-nav-text" style="padding-right: 15px;">Add Schedule Date With Class</a></li>
                      <li class="nav-item"><a class="nav-link" href="#assign_teacher" data-toggle="tab">Add Schedule Time</a></li>
                      <li class="nav-item"><a class="nav-link" href="#assign_schedule" data-toggle="tab">Assign Schedule</a></li>
                 </ul>
@@ -72,7 +71,7 @@
                                                 <td><%= scheduleGradeDay[i].day %></td>
                                                 <td>
                                                   <a href="#">
-                                                    <i class="material-icons"> edit</i>
+                                                    <i class="material-icons" id="update-schedule" data-id="<%= scheduleGradeDay[i].id %>"> edit</i>
                                                   </a>
                                                   <a href="#">
                                                     <i class="material-icons">delete</i>
@@ -82,21 +81,16 @@
                                                 </tr>
                                             <% } %>
                                           </tbody>
-                                          <tfoot>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Grade & Section</th>
-                                                <th>Day</th>
-                                              </tr>
-                                          </tfoot>
+                                          
                                       </table>
-                                    
+                                      <%-include('updateModal');-%>
                                 </div>
                             </div>
                         </div>
                         <!-- /.post -->
                     </div>
-
+<!---new script-->
+<script src="js/schedule/updateSchedule.js"></script>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="assign_teacher">
                           <div class="row">
@@ -135,13 +129,7 @@
                                                 </tr>
                                             <% } %>
                                           </tbody>
-                                          <tfoot>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Start Time</th>
-                                                <th>End Time</th>
-                                              </tr>
-                                          </tfoot>
+                                          
                                       </table>
                                 </div>
                             </div>
@@ -194,16 +182,7 @@
 
                                               
                                           </tbody>
-                                          <tfoot>
-                                              <tr>
-                                                <th>#</th>
-                                                <th>Grade</th>
-                                                <th>Schedule Time</th>
-                                                <th>Subject</th>
-                                                <th>Day</th>
-                                                <th>Teacher</th>
-                                              </tr>
-                                          </tfoot>
+                                          
                                       </table>
                                     
                                 </div>
@@ -236,7 +215,7 @@
    <script src="js/popper.min.js"></script>
    <script src="js/bootstrap.min.js"></script>
    <script src="js/jquery-3.3.1.min.js"></script>
-  
+   
   
   <script type="text/javascript">
        $(document).ready(function(){

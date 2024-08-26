@@ -22,7 +22,7 @@ const compAuth=(req,res,next)=>{
             req.id=id
             next()
         })
-
+        
        
     } catch (error) {
        return res.redirect("/")
