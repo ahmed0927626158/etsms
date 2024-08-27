@@ -6,6 +6,8 @@ const route=express.Router()
 route.get("/all",getTecherGradeSubs)
 route.post("/register",registerTecherGradeSub)
 route.get("/info/:id",getTeacherGradeSub)
+route.get("/link",getTecherGradeSubLink)
+
 route.delete("/delete/:id",deleteTeacherGradeSubs)
 // route.put("/:id",registerStudent)
 
