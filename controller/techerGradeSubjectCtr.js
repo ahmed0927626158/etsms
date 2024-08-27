@@ -101,30 +101,36 @@ const getTeacherGradeSub = (req, res) => {
 
 
 const getTecherGradeSubLink=(req,res)=>{
-    const {schedul_id,subject_id}=req.query
-    const selectTeacherGradeSubject="SELECT t.id,t.firstname,t.middlename,t.phone FROM techer AS t JOIN techer_course_grade AS tcg ON t.id=tcg.techer_id JOIN schedul AS s ON s.letter_grade_id=tcg.letter_grade_id JOIN subject AS sb ON tcg.subject_id=sb.id WHERE s.id=? AND sb.id=?"
-    try{
-        
-       dbPool.query(selectTeacherGradeSubject,[schedul_id,subject_id],(error,result)=>{
-        if(error){
-            console.log(error)
-            return res.status(400).json({error:error['sqlMessage']})
-        }
-        const teacher_data=result.map(function(teacher){
-            return {
-                label:teacher.firstname+" "+teacher.middlename+" "+teacher.phone,
-                id:teacher.id
+    const { schedul_id, subject_id } = req.query; // Extract schedule_id and subject_id from query parameters
+
+    const selectTeacherGradeSubject = `
+        SELECT t.id, t.firstname, t.middlename, t.phone 
+        FROM techer AS t 
+        JOIN techer_course_grade AS tcg ON t.id = tcg.techer_id 
+        JOIN schedul AS s ON s.letter_grade_id = tcg.letter_grade_id 
+        JOIN subject AS sb ON tcg.subject_id = sb.id 
+        WHERE s.id = ? AND sb.id = ?`;
+
+    try {
+        dbPool.query(selectTeacherGradeSubject, [schedul_id, subject_id], (error, result) => {
+            if (error) {
+                console.log(error);
+                return res.status(400).json({ error: error['sqlMessage'] });
             }
-        })
-        return res.status(200).json({teacher_data:teacher_data})
+
+            const teacher_data = result.map(teacher => ({
+                label: `${teacher.firstname} ${teacher.middlename} ${teacher.phone}`,
+                id: teacher.id
+            }));
+
+            return res.status(200).json({ teacher_data });
         });
-       
-        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Internal Server Error' });
     }
-    catch(error){
-        res.status(400).send({error:error})
-    }
-}
+};
+
 
 
 
